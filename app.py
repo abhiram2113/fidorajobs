@@ -1273,8 +1273,15 @@ class Handler(BaseHTTPRequestHandler):
                 with db() as c: c.execute("DELETE FROM sessions WHERE token_hash=?", (token_hash(m.group(1)),))
             return self.send_json({"ok": True}, headers={"Set-Cookie": "fp_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0"})
         if path == "/api/sync":
-            threading.Thread(target=sync_sources, kwargs={"force": True}, daemon=True).start()
-            return self.send_json({"status": "started"}, 202)
+            if user["role"] != "admin":
+                return self.send_json({"error": "Administrator access required"}, 403)
+            # Vercel serverless runtimes may freeze background threads as soon as
+            # the response returns. Run the sync in this request so results persist.
+            try:
+                result = sync_sources(force=True)
+                return self.send_json(result, 200 if result.get("status") in {"ok", "partial", "already_running"} else 502)
+            except Exception as exc:
+                return self.send_json({"status": "error", "error": str(exc)[:300]}, 502)
         if path == "/api/applications":
             job_id = data.get("job_id")
             if job_id:
