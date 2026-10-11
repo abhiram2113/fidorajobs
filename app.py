@@ -230,13 +230,40 @@ def parse_date(value):
 
 
 def db():
-    """Return a PostgreSQL-backed compatibility connection (Supabase pooler)."""
+    """Connect to Supabase Postgres while safely decoding URL credentials."""
     url = os.getenv("DATABASE_URL", "").strip()
     if not url:
         raise RuntimeError("DATABASE_URL is required for persistent Vercel storage.")
     import psycopg
     from psycopg.rows import dict_row
-    raw = psycopg.connect(url, row_factory=dict_row, connect_timeout=10)
+    from urllib.parse import urlsplit, unquote
+
+    # Parse URL components explicitly. Passing the full URL to libpq can fail
+    # when a database password contains reserved URL characters.
+    try:
+        parsed = urlsplit(url)
+        if parsed.scheme not in ("postgres", "postgresql") or not parsed.hostname:
+            raise ValueError("DATABASE_URL must be a PostgreSQL URL")
+        username = unquote(parsed.username or "")
+        password = unquote(parsed.password or "")
+        database = unquote(parsed.path.lstrip("/"))
+        if not username or not database:
+            raise ValueError("DATABASE_URL is missing its username or database name")
+        raw = psycopg.connect(
+            host=parsed.hostname,
+            port=parsed.port or 5432,
+            dbname=database,
+            user=username,
+            password=password,
+            sslmode="require",
+            row_factory=dict_row,
+            connect_timeout=10,
+            prepare_threshold=None,
+        )
+    except Exception as exc:
+        # Do not log the connection URL or password.
+        print(f"PostgreSQL connection setup failed ({type(exc).__name__}): {exc}")
+        raise
     return PGConnection(raw)
 
 
