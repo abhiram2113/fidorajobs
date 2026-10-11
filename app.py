@@ -234,6 +234,11 @@ def db():
     url = os.getenv("DATABASE_URL", "").strip()
     if not url:
         raise RuntimeError("DATABASE_URL is required for persistent Vercel storage.")
+    # Be tolerant of common copy/paste formats from Vercel environment settings:
+    # surrounding quotes or accidentally including the variable name.
+    if url.startswith("DATABASE_URL="):
+        url = url.split("=", 1)[1].strip()
+    url = url.strip().strip('"').strip("'").strip()
     import psycopg
     from psycopg.rows import dict_row
     from urllib.parse import urlsplit, unquote
