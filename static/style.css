@@ -455,3 +455,15 @@ html[data-theme="dark"] .assistant-quick button{background:#3a321e;color:#ffe6a0
 html[data-theme="dark"] .assistant-form input{background:#0d1829;color:#f0f4fb;border-color:#465a77}
 @media(max-width:700px){.assistant-widget{right:12px;bottom:calc(12px + env(safe-area-inset-bottom))}.assistant-fab{min-height:48px;padding:11px 14px}.assistant-panel{right:0;bottom:60px;width:calc(100vw - 24px);height:min(70dvh,560px);min-height:340px}.assistant-fab-label{font-size:12px}}
 @media(prefers-reduced-motion:reduce){body:before,.assistant-panel{animation:none!important}.assistant-fab{transition:none!important}.assistant-fab:hover{transform:none}}
+
+/* Dark mode page canvas: eliminate white header/content strips and keep navy-gold ambient motion visible */
+html[data-theme="dark"],html[data-theme="dark"] body{background-color:#0b1424!important;color:#eaf0fa!important}
+html[data-theme="dark"] body:before{z-index:0;opacity:.72;pointer-events:none;background:radial-gradient(ellipse at 14% 12%,#1a3153 0,transparent 40%),radial-gradient(ellipse at 82% 25%,#49391c 0,transparent 30%),radial-gradient(ellipse at 62% 90%,#172b49 0,transparent 38%)!important;background-size:140% 140%;animation:nightAmbient 28s ease-in-out infinite alternate!important}
+html[data-theme="dark"] body:after{z-index:0;opacity:.12;pointer-events:none}
+html[data-theme="dark"] #app,html[data-theme="dark"] main,html[data-theme="dark"] .main,html[data-theme="dark"] .workspace,html[data-theme="dark"] .content,html[data-theme="dark"] .page-content{background:transparent!important}
+html[data-theme="dark"] header:not(.assistant-head),html[data-theme="dark"] .topbar,html[data-theme="dark"] .page-header,html[data-theme="dark"] .content-header,html[data-theme="dark"] .top-header{background:rgba(15,29,49,.88)!important;color:#eaf0fa!important;border-color:#30445f!important;backdrop-filter:blur(12px)}
+html[data-theme="dark"] header:not(.assistant-head) h1,html[data-theme="dark"] header:not(.assistant-head) h2,html[data-theme="dark"] .page-header h1,html[data-theme="dark"] .content-header h1{color:#edf3fc!important}
+html[data-theme="dark"] .breadcrumb,html[data-theme="dark"] .breadcrumbs,html[data-theme="dark"] .eyebrow{color:#c4d0e3!important}
+html[data-theme="dark"] body #app{position:relative;z-index:1}
+@keyframes nightAmbient{0%{background-position:0% 30%;transform:translate3d(-.5%,0,0) scale(1)}50%{background-position:70% 55%;transform:translate3d(.5%,-.4%,0) scale(1.025)}100%{background-position:100% 20%;transform:translate3d(0,.5%,0) scale(1.01)}}
+@media(prefers-reduced-motion:reduce){html[data-theme="dark"] body:before{animation:none!important}}
