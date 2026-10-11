@@ -142,3 +142,16 @@ html[data-theme="dark"] .job-date-filter input{background:#0b1423;color:var(--in
   .stats>div{overflow:hidden}
   .stats p{overflow-wrap:anywhere}
 }
+
+/* Mobile overflow fix: filters must shrink inside the viewport, not push the page sideways. */
+#page-jobs,.content,.filters,.filter-grid{min-width:0;max-width:100%}
+.filter-grid>*{min-width:0;max-width:100%}
+@media(max-width:700px){
+  .content{width:100%;max-width:100%;overflow-x:clip}
+  .filters,.filter-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%;min-width:0;gap:10px}
+  .filters input,.filters select,.filter-grid input,.filter-grid select,.filter-grid button,.job-date-filter,.job-date-filter input{width:100%!important;min-width:0!important;max-width:100%!important;grid-column:1/-1}
+  .filters select,.filter-grid select{min-width:0!important}
+  .job-date-filter{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;box-sizing:border-box}
+  .job-date-filter input[type=date]{display:block;box-sizing:border-box;width:100%;min-height:46px;padding:10px 12px;font-size:16px}
+  #clearJobDate{justify-self:stretch}
+}
