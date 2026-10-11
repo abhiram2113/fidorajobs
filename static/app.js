@@ -50,22 +50,26 @@ async function sources(){try{let d=await api("/api/sources");let reg=await api("
 $("#sourceForm").onsubmit=async e=>{e.preventDefault();try{await api("/api/admin/sources",{method:"POST",body:JSON.stringify({provider:$("#provider").value,board:$("#board").value,label:$("#label").value,region:$("#region").value})});$("#sourceMsg").textContent="Source added. Feed sync started.";e.target.reset();$("#region").value="US";sources()}catch(x){$("#sourceMsg").textContent=x.message}};
 async function refreshFeeds(){const b=$("#refreshFeeds");if(b){b.disabled=true;b.textContent="Syncing feeds…"}$("#feedMsg").textContent="Fetching configured job sources. This can take a little while…";try{const result=await api("/api/sync",{method:"POST",body:"{}"});await sources();await getJobs();await summary();const errors=result.errors||[];$("#feedMsg").textContent=`Sync finished: ${result.records??0} job records processed. ${errors.length?errors.length+" source(s) failed: "+errors.map(x=>x.source+": "+x.error).join(" · "):"No source errors reported."}`;if(errors.length)toast("Sync finished with "+errors.length+" source error(s). Check feed status.");else toast("Job feed sync completed")}catch(e){$("#feedMsg").textContent="Feed sync failed: "+e.message;try{await sources()}catch{}toast("Feed sync failed: "+e.message)}finally{if(b){b.disabled=false;b.textContent="Refresh all feeds"}}}
 
-function assistantReply(input){
- const q=String(input||"").toLowerCase();
- if(/\b(hi|hello|hey)\b/.test(q))return "Hello! I can guide you around FidoraJobs. Tell me whether you want job recommendations, resume feedback, sponsorship information, or application tracking.";
- if(/sponsor|h.?1b|visa|immigration/.test(q))return "Open Discover Jobs and review the sponsorship label and any “Evidence in listing” indicator. “Unknown” or a provider signal is not a sponsorship guarantee. Always verify the exact wording and eligibility on the employer’s official careers page.";
- if(/resume|cv|skill|improve profile/.test(q))return resumeReady?"Your resume is uploaded. Open My Profile & Resume to review or update it. Match scores compare available resume/target-role keywords with job text; use them as a guide, not a hiring prediction.":"Open My Profile & Resume and upload a PDF, DOCX, ODT, RTF, or TXT resume (up to 5 MB). Once processed, FidoraJobs can show estimated keyword matches and suggested roles.";
- if(/match|score|percent|percentage/.test(q))return "The match percentage is an estimate based on overlap between resume/target-role keywords and the job title and description. It is not an employer assessment or a probability of being hired. Add relevant, truthful skills to your resume to make the comparison more useful.";
- if(/applied|application tracker|track application|status/.test(q))return "Open Application Tracker to review jobs marked as applied and filter them by date. Use the employer's official application portal for the actual application status; marking a job applied here records it in your FidoraJobs workspace only.";
- if(/save|saved|bookmark/.test(q))return "On a job card, choose ☆ Save to add it to Saved Jobs. Open Saved Jobs from the navigation to return to those listings.";
- if(/date|filter|specific day|posted/.test(q))return "Open Discover Jobs and use the Posted on date filter. Selecting a date narrows results to listings with that posting date; clearing the date shows jobs across all available dates.";
- if(/find|search|job|role|recommend/.test(q)){let n=jobs.length,matching=jobs.filter(j=>j.has_resume).length;return "Open Discover Jobs to search by title, employer, location, or skills and filter the results. "+n+" active listings are currently loaded in this session"+(resumeReady?"; "+matching+" have resume-match data available.":"; upload your resume in My Profile to personalize match estimates.")+" Start with the strongest relevant matches, then verify the posting is active on the employer's site."}
- if(/dark|theme|colour|color|night/.test(q))return "Use the Day mode / Night mode control in the top bar to switch themes. Your preference is saved in this browser.";
- if(/where|navigate|overview|profile|portal|page/.test(q))return "Use the navigation menu to open Overview, Discover Jobs, Saved Jobs, Application Tracker, My Profile & Resume, or Career Acceleration. I can also explain how any of these features work.";
- return "I can help with job search, resume uploads, match scores, H-1B/sponsorship evidence, saved jobs, date filters, application tracking, and light/dark mode. Which one would you like help with?";
+async function assistantReply(input){
+ const fallback=()=>{
+  const q=String(input||"").toLowerCase();
+  if(/sponsor|h.?1b|visa|immigration/.test(q))return "Review the sponsorship label and any “Evidence in listing” indicator, then verify the exact details on the employer’s official careers page. An indicator is not a sponsorship guarantee.";
+  if(/resume|cv|skill|improve profile/.test(q))return resumeReady?"Your resume is uploaded. Open My Profile & Resume to review it. Match scores are estimates, not hiring predictions.":"Open My Profile & Resume to upload your resume and receive estimated match insights.";
+  if(/applied|application tracker|track application|status/.test(q))return "Open Application Tracker to review jobs you marked as applied. That records your activity in FidoraJobs; confirm the real status on the employer's own application portal.";
+  if(/find|search|job|role|recommend/.test(q))return "Open Discover Jobs to search by title, employer, location or skills. Review posting dates and use official employer links before applying.";
+  return "I can help with job search, resume/ATS writing, LinkedIn profiles, match scores, sponsorship evidence, interviews and application tracking. For a human response, use 24/7 Help & Support below the Career AI button.";
+ };
+ const apiMessages=assistantHistory.slice(-10).map(m=>({role:m.role,content:m.content}));
+ try{
+  const result=await api("/api/assistant/chat",{method:"POST",body:JSON.stringify({messages:apiMessages})});
+  return result.reply||fallback();
+ }catch(err){
+  if(String(err.message||"").includes("AI_API_KEY")||String(err.message||"").includes("not connected yet"))return "The live AI connection is not configured yet. FidoraPath support is available at support@fidorapath.in. The portal administrator needs to add AI_API_KEY in Vercel Environment Variables to enable generative chat.";
+  throw err;
+ }
 }
 function assistantMessage(text,kind="assistant-bot"){const root=$("#assistantMessages");if(!root)return;const node=document.createElement("div");node.className="assistant-msg "+kind;node.textContent=text;root.appendChild(node);root.scrollTop=root.scrollHeight}
-function assistantAsk(text){const value=String(text||"").trim();if(!value)return;assistantMessage(value,"assistant-user");assistantMessage(assistantReply(value));}
+let assistantHistory=[];let assistantBusy=false;async function assistantAsk(text){const value=String(text||"").trim();if(!value||assistantBusy)return;assistantBusy=true;assistantHistory.push({role:"user",content:value});assistantMessage(value,"assistant-user");const wait=document.createElement("div");wait.className="assistant-msg assistant-bot assistant-thinking";wait.textContent="Thinking…";$("#assistantMessages").appendChild(wait);const send=$("#assistantForm button[type=submit]");if(send)send.disabled=true;try{const answer=await assistantReply(value);wait.remove();assistantHistory.push({role:"assistant",content:answer});assistantMessage(answer)}catch(e){wait.remove();const msg=e.message||"Could not reach the AI service. Please try again.";assistantHistory.pop();assistantMessage(msg+" You can also contact support@fidorapath.in.","assistant-bot")}finally{assistantBusy=false;if(send)send.disabled=false;$("#assistantInput")?.focus()}}
 function initAssistant(){
  const wrap=$("#fidoraAssistant"),fab=$("#assistantFab"),panel=$("#assistantPanel"),input=$("#assistantInput");if(!wrap||!fab||!panel)return;
  const show=()=>{panel.classList.remove("hidden");fab.setAttribute("aria-expanded","true");input?.focus()};
