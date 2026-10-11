@@ -1174,12 +1174,18 @@ class Handler(BaseHTTPRequestHandler):
             password = str(data.get("password", ""))
             if not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", email) or len(password) < 4:
                 return self.send_json({"error": "Enter a valid email and a password of at least 4 characters."}, 400)
-            with db() as c:
-                row = c.execute("SELECT * FROM users WHERE email=?", (email,)).fetchone()
-                if not row or not row["is_active"] or not hmac.compare_digest(hash_password(password,row["salt"]),row["password_hash"]):
-                    return self.send_json({"error": "Email or password is incorrect."}, 401)
-                token = secrets.token_urlsafe(36)
-                c.execute("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)", (token_hash(token), row["id"], iso(now()+timedelta(days=14))))
+            try:
+                with db() as c:
+                    row = c.execute("SELECT * FROM users WHERE email=?", (email,)).fetchone()
+                    if not row or not row["is_active"] or not hmac.compare_digest(hash_password(password,row["salt"]),row["password_hash"]):
+                        return self.send_json({"error": "Email or password is incorrect."}, 401)
+                    token = secrets.token_urlsafe(36)
+                    c.execute("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)", (token_hash(token), row["id"], iso(now()+timedelta(days=14))))
+            except Exception as exc:
+                import traceback
+                print("FidoraJobs login database operation failed:")
+                traceback.print_exc()
+                return self.send_json({"error": "Login database operation failed", "type": type(exc).__name__}, 500)
             cookie = f"fp_session={token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=1209600"
             return self.send_json({"id": row["id"], "name": row["name"], "email": email}, headers={"Set-Cookie": cookie})
         user = self.require_user()
