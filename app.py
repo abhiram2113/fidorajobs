@@ -258,8 +258,9 @@ def db():
             sslmode="require",
             row_factory=dict_row,
             connect_timeout=10,
-            prepare_threshold=None,
         )
+        # Disable auto-prepared statements for serverless/pooler connections.
+        raw.prepare_threshold = None
     except Exception as exc:
         # Do not log the connection URL or password.
         print(f"PostgreSQL connection setup failed ({type(exc).__name__}): {exc}")
