@@ -24,11 +24,14 @@ class handler(portal_app.Handler):
         except Exception as exc:
             print("FidoraJobs database initialization failed:")
             traceback.print_exc()
-            body = (
-                '{"error":"Database initialization failed","type":"'
-                + type(exc).__name__
-                + '"}'
-            ).encode("utf-8")
+            import json
+            # Return the database's diagnostic message (never the connection URL)
+            # so production schema failures can be fixed without guessing.
+            body = json.dumps({
+                "error": "Database initialization failed",
+                "type": type(exc).__name__,
+                "detail": str(exc)[:500],
+            }).encode("utf-8")
             self.send_response(500)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Cache-Control", "no-store")
