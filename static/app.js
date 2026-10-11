@@ -75,4 +75,5 @@ function initAssistant(){
  $("#assistantQuick").addEventListener("click",e=>{const b=e.target.closest("[data-assist]");if(!b)return;const q={jobs:"How do I find matching jobs?",resume:"How can I improve my resume?",sponsor:"How do I check H-1B sponsorship evidence?"}[b.dataset.assist];assistantAsk(q)});
  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!panel.classList.contains("hidden"))hide()});
 }
-\n$("#refreshFeeds").onclick=refreshFeeds;initAssistant();$("#refresh").onclick=async()=>{let b=$("#refresh");b.classList.add("refreshing");b.innerHTML="◌ Updating jobs…";try{if(me?.role==="admin")await refreshFeeds();else{await getJobs();toast("Job listings refreshed")}}finally{setTimeout(()=>{b.classList.remove("refreshing");b.innerHTML="↻ Refresh jobs"},1000)}};boot();
+
+$("#refreshFeeds").onclick=refreshFeeds;initAssistant();$("#refresh").onclick=async()=>{let b=$("#refresh");b.classList.add("refreshing");b.innerHTML="◌ Updating jobs…";try{if(me?.role==="admin")await refreshFeeds();else{await getJobs();toast("Job listings refreshed")}}finally{setTimeout(()=>{b.classList.remove("refreshing");b.innerHTML="↻ Refresh jobs"},1000)}};boot();
