@@ -259,7 +259,7 @@ class PGCursor:
             sql = sql.rstrip().rstrip(";") + " ON CONFLICT(user_id,job_id) DO NOTHING"
         sql = sql.replace("?", "%s")
         try:
-            self.cursor.execute(sql, params or ())
+            self.cursor.execute(sql, params or (), prepare=False)
         except Exception as exc:
             import psycopg
             if isinstance(exc, psycopg.errors.UniqueViolation):
