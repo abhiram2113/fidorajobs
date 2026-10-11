@@ -270,3 +270,48 @@ body{background:#f5f7fb;color:#1d2939}
 /* Use solid fills throughout: color comes from the surface, not gradient effects. */
 .hero,.banner,.career-hero,.career-cta,.upload-zone,.primary,.actions a,.bar-fill{background-image:none!important}
 @media(prefers-reduced-motion:reduce){.job{animation:none!important;transition:none!important}.job:hover{transform:none}}
+
+/* Unified FidoraJobs palette: one consistent green + neutral system across every page */
+:root{--g:#246c53;--gold:#e8bd62;--ink:#1f2937;--muted:#667085;--line:#e1e7ee;--paper:#f5f7fa;--surface:#fff;--brand-soft:#e8f3ed;--brand-border:#c8e0d2}
+body{background:var(--paper)!important;color:var(--ink)!important}
+.sidebar,.loginform,.panel,.stats>div,.service-card,.sample-showcase>div,.career-cta,.monthly-panel{background:#fff!important;border-color:var(--line)!important}
+.hero,.banner,.career-hero{background:#246c53!important;color:#fff!important}
+.hero h1,.hero p,.banner h2,.banner p,.career-hero h2,.career-hero p{color:#fff!important}
+.hero small,.banner small,.content>section>small{color:#f4d88e!important}
+.brand b{background:#246c53!important;color:#fff!important}
+.brand span{color:#246c53!important}
+.hero .brand b{background:#f4d88e!important;color:#174b3d!important}
+.hero .brand span{color:#f4d88e!important}
+.primary,.actions a,.career-hero .primary{background:#246c53!important;color:#fff!important;border-color:#246c53!important;background-image:none!important}
+.secondary{background:#fff!important;color:#344054!important;border-color:#d0d8e2!important}
+.nav.active,.sidebar>.nav.active,#adminNav .nav.active{background:#e8f3ed!important;color:#1c684a!important}
+#page-jobs .filters{background:#fff!important;border-color:var(--line)!important}
+#page-jobs .filters input,#page-jobs .filters select{background:#fff!important;color:#1f2937!important;border-color:#d8e0e9!important}
+.stats>div:nth-child(n){background:#fff!important;border-color:var(--line)!important}
+.stats>div:nth-child(4){background:#e8f3ed!important;border-color:#c8e0d2!important}
+.job,.job:nth-child(n){background:#e8f3ed!important;border:1px solid #c8e0d2!important;color:#1f2937!important;box-shadow:0 3px 10px #173d2b08!important}
+.job:hover{background:#e2f0e8!important;border-color:#9fc9b0!important;box-shadow:0 10px 22px #173d2b14!important}
+.job .company,.job h3,.job .meta{color:#243b31!important}
+.job .tag{background:#fff!important;border:1px solid #d5e5da!important;color:#355344!important}
+.match-ring{background:conic-gradient(#e8bd62 var(--score),#dce8e0 0)!important}
+.match-core{background:#fff!important}
+.actions button[data-act="saved"]{background:#fff!important;color:#246c53!important;border:1px solid #b7d6c3!important}
+.actions button[data-act="applied"]{background:#fff!important;color:#246c53!important;border:1px solid #b7d6c3!important}
+.actions a{background:#246c53!important;color:#fff!important;border-color:#246c53!important}
+.upload-zone{background:#e8f3ed!important;border-color:#b7d6c3!important}
+.service-card .service-icon{background:#e8f3ed!important;color:#246c53!important}
+.career-cta{background:#e8f3ed!important;border-color:#c8e0d2!important}
+.bar-fill{background:#246c53!important}
+.tag.sponsor{background:#fff4d9!important;color:#78581a!important;border-color:#ecd9a8!important}
+.empty{background:#fff!important;color:#344054!important;border-color:#d8e0e9!important}
+#toast{background:#174b3d!important}
+html[data-theme="dark"] .job,html[data-theme="dark"] .job:nth-child(n){background:#1c3329!important;color:#eef8f1!important;border-color:#315543!important}
+html[data-theme="dark"] .job .company,html[data-theme="dark"] .job h3,html[data-theme="dark"] .job .meta{color:#e5f3e9!important}
+html[data-theme="dark"] .job .tag{background:#243d31!important;color:#e5f3e9!important;border-color:#3b5a47!important}
+html[data-theme="dark"] .actions button[data-act="saved"],html[data-theme="dark"] .actions button[data-act="applied"]{background:#243d31!important;color:#e5f3e9!important;border-color:#3b5a47!important}
+/* Keep descriptions, skills and long employer text contained within job cards */
+.job,.job>div,.job .tags,.job .meta{min-width:0;max-width:100%}
+.job .tags{overflow:hidden;max-height:78px;align-content:flex-start}
+.job .tag{display:inline-block;max-width:100%;min-width:0;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;line-height:1.4;max-height:42px;overflow:hidden;vertical-align:top}
+.job .meta span{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:700px){.job .tags{max-height:88px}.job .tag{font-size:10px;max-height:44px}.job h3{overflow-wrap:anywhere;word-break:normal}}
