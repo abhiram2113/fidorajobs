@@ -155,3 +155,54 @@ html[data-theme="dark"] .job-date-filter input{background:#0b1423;color:var(--in
   .job-date-filter input[type=date]{display:block;box-sizing:border-box;width:100%;min-height:46px;padding:10px 12px;font-size:16px}
   #clearJobDate{justify-self:stretch}
 }
+
+/* Cohesive mobile-first finish: more breathing room, stable controls, less visual noise. */
+:root{--mobile-radius:14px}
+button,.primary,.secondary,.light,.link,.nav{touch-action:manipulation}
+input,select,textarea{max-width:100%;box-sizing:border-box}
+.job{border-radius:15px;transition:border-color .16s ease,box-shadow .16s ease}
+.job:focus-within{border-color:#b5cdbf;box-shadow:0 8px 24px #173d2b0b}
+.jobs{min-width:0}
+.empty{border-radius:13px;line-height:1.65}
+@media(max-width:700px){
+  body{overflow-x:hidden}
+  main,.content,.page{min-width:0;max-width:100%}
+  .content{padding:14px 11px calc(20px + env(safe-area-inset-bottom))}
+  header{padding:15px 13px}
+  .banner{padding:20px 16px;margin-bottom:18px}
+  .banner p{font-size:13px;line-height:1.65}
+  .stats{gap:8px;margin:12px 0 22px}
+  .stats>div{padding:12px 10px}
+  .stats strong{font-size:clamp(20px,6vw,26px)}
+  .panel{border-radius:14px}
+  .job{padding:13px;gap:12px}
+  .job h3{overflow-wrap:anywhere}
+  .meta span{overflow-wrap:anywhere}
+  .tags{gap:6px}
+  .tag{max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.4}
+  .sidejob{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:10px}
+  .match-wrap{min-width:0}
+  .actions{grid-template-columns:repeat(2,minmax(0,1fr));min-width:0;width:100%;gap:7px}
+  .actions button,.actions a{font-size:12px;min-height:44px;padding:9px 6px;overflow-wrap:anywhere}
+  .actions a:last-child{grid-column:1/-1}
+  .filters{gap:10px}
+  .filters input,.filters select,.filters button{min-height:45px;border-radius:10px}
+  .job-date-filter{gap:7px}
+  .job-date-filter input{border-radius:10px}
+  .date-tools{grid-template-columns:minmax(0,1fr);gap:10px}
+  .date-tools .secondary{grid-column:auto}
+  .sect{margin-top:23px}
+  .sect button{align-self:stretch}
+  .monthly-panel{padding:13px}
+  .bar-chart{grid-template-columns:repeat(12,minmax(0,1fr));gap:2px}
+  .bar-value{font-size:9px}
+  .bar-column small{font-size:8px}
+  .sidebar{justify-content:flex-start;gap:4px;padding-left:8px;padding-right:8px}
+  .sidebar>.nav,#adminNav .nav{min-width:60px;max-width:100px;padding:8px 7px;font-size:10px}
+  .sidebar>.nav.active,#adminNav .nav.active{background:#e8f2ed;color:#174b3d}
+  html[data-theme="dark"] .sidebar{background:#101a29f5}
+  html[data-theme="dark"] .sidebar>.nav.active,html[data-theme="dark"] #adminNav .nav.active{background:#244a42;color:#fff}
+}
+@media(hover:none){
+  .job:hover,.service-card:hover,.sample-showcase>div:hover{transform:none;box-shadow:none}
+}
