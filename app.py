@@ -27,7 +27,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-DATA = ROOT / "data"
+
+# Vercel serverless functions do not provide persistent local storage.
+# /tmp is writable for temporary runtime files only; use a persistent
+# PostgreSQL database for production user/job/application/resume data.
+DATA = Path(os.getenv("DATA_DIR", "/tmp/fidorapath-data" if os.getenv("VERCEL") else str(ROOT / "data")))
 DB = DATA / "portal.sqlite3"
 STATIC = ROOT / "static"
 
@@ -226,11 +230,15 @@ def parse_date(value):
 
 
 def db():
-    DATA.mkdir(exist_ok=True)
+    # On Vercel this creates only ephemeral storage; data may disappear when
+    # an instance is recycled. Do not treat this as persistent production DB.
+    DATA.mkdir(parents=True, exist_ok=True)
     con = sqlite3.connect(DB, timeout=20)
     con.row_factory = sqlite3.Row
     con.execute("PRAGMA foreign_keys=ON")
-    con.execute("PRAGMA journal_mode=WAL")
+    # WAL can fail or behave unexpectedly on ephemeral/serverless filesystems.
+    if not os.getenv("VERCEL"):
+        con.execute("PRAGMA journal_mode=WAL")
     return con
 
 
