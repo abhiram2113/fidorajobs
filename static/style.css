@@ -315,3 +315,69 @@ html[data-theme="dark"] .actions button[data-act="saved"],html[data-theme="dark"
 .job .tag{display:inline-block;max-width:100%;min-width:0;white-space:normal!important;overflow-wrap:anywhere;word-break:break-word;line-height:1.4;max-height:42px;overflow:hidden;vertical-align:top}
 .job .meta span{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
 @media(max-width:700px){.job .tags{max-height:88px}.job .tag{font-size:10px;max-height:44px}.job h3{overflow-wrap:anywhere;word-break:normal}}
+
+/* FidoraJobs brand palette v2: premium navy blue + gold, coordinated light/dark themes */
+:root{--g:#173b70;--gold:#d8ad4c;--ink:#17243a;--muted:#5d6b82;--line:#dbe2ed;--paper:#f4f7fc;--surface:#fff;--brand-soft:#e8eef8;--brand-border:#c9d6eb;--navy:#173b70;--navy-strong:#10294f;--gold-soft:#fff4d8}
+body{background:var(--paper)!important;color:var(--ink)!important}
+.sidebar,.loginform,.panel,.stats>div,.service-card,.sample-showcase>div,.career-cta,.monthly-panel{background:#fff!important;border-color:var(--line)!important}
+.hero,.banner,.career-hero{background:#173b70!important;color:#fff!important;background-image:none!important}
+.hero h1,.hero p,.banner h2,.banner p,.career-hero h2,.career-hero p{color:#fff!important}
+.hero small,.banner small,.content>section>small{color:#f2d88f!important}
+.brand b{background:#173b70!important;color:#fff!important}
+.brand span{color:#173b70!important}
+.hero .brand b{background:#e3bd61!important;color:#173b70!important}
+.hero .brand span{color:#f2d88f!important}
+.primary,.actions a,.career-hero .primary{background:#173b70!important;color:#fff!important;border-color:#173b70!important;background-image:none!important}
+.primary:hover,.actions a:hover{background:#10294f!important}
+.secondary{background:#fff!important;color:#173b70!important;border-color:#cbd6e6!important}
+.nav.active,.sidebar>.nav.active,#adminNav .nav.active{background:#e8eef8!important;color:#173b70!important}
+#page-jobs .filters{background:#fff!important;border-color:var(--line)!important}
+#page-jobs .filters input,#page-jobs .filters select{background:#fff!important;color:#17243a!important;border-color:#d5deeb!important}
+.stats>div:nth-child(n){background:#fff!important;border-color:var(--line)!important}
+.stats>div:nth-child(4){background:#fff4d8!important;border-color:#ecd69b!important}
+.stats>div small{color:#5d6b82!important}.stats>div strong{color:#173b70!important}
+.job,.job:nth-child(n){background:#e8eef8!important;border:1px solid #c9d6eb!important;color:#17243a!important;box-shadow:0 3px 10px #173b7010!important}
+.job:hover{background:#e0e9f7!important;border-color:#9eb4d8!important;box-shadow:0 10px 22px #173b701b!important}
+.job .company,.job h3,.job .meta{color:#1c3150!important}
+.job .tag{background:#fff!important;border:1px solid #d3deef!important;color:#344966!important}
+.match-ring{background:conic-gradient(#d8ad4c var(--score),#dbe3ef 0)!important}
+.match-core{background:#fff!important}
+.actions button[data-act="saved"]{background:#fff!important;color:#173b70!important;border:1px solid #b7c8e4!important}
+.actions button[data-act="applied"]{background:#fff!important;color:#173b70!important;border:1px solid #b7c8e4!important}
+.actions a{background:#173b70!important;color:#fff!important;border-color:#173b70!important}
+.upload-zone{background:#e8eef8!important;border-color:#b7c8e4!important}
+.service-card .service-icon{background:#fff4d8!important;color:#775815!important}
+.career-cta{background:#e8eef8!important;border-color:#c9d6eb!important}
+.bar-fill{background:#173b70!important}
+.tag.sponsor{background:#fff4d8!important;color:#775815!important;border-color:#e7d197!important}
+.empty{background:#fff!important;color:#344054!important;border-color:#d8e0e9!important}
+#toast{background:#10294f!important;color:#fff!important}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #d8ad4c!important;outline-offset:2px}
+html[data-theme="dark"]{color-scheme:dark;--ink:#e8eef8;--muted:#a7b5ca;--line:#34435c;--paper:#0c1422;--surface:#121e31;--brand-soft:#1b2b45;--brand-border:#334a6d}
+html[data-theme="dark"] body{background:#0c1422!important;color:#e8eef8!important}
+html[data-theme="dark"] .sidebar,html[data-theme="dark"] .loginform,html[data-theme="dark"] .panel,html[data-theme="dark"] .stats>div,html[data-theme="dark"] .service-card,html[data-theme="dark"] .sample-showcase>div,html[data-theme="dark"] .career-cta,html[data-theme="dark"] .monthly-panel,html[data-theme="dark"] #page-jobs .filters{background:#121e31!important;border-color:#34435c!important;color:#e8eef8!important}
+html[data-theme="dark"] .hero,html[data-theme="dark"] .banner,html[data-theme="dark"] .career-hero{background:#10294f!important}
+html[data-theme="dark"] .brand span{color:#e4bd5c!important}
+html[data-theme="dark"] .brand b{background:#d8ad4c!important;color:#10294f!important}
+html[data-theme="dark"] .nav,html[data-theme="dark"] .sidebar>.nav,html[data-theme="dark"] #adminNav .nav{color:#c7d2e3!important}
+html[data-theme="dark"] .nav.active,html[data-theme="dark"] .sidebar>.nav.active,html[data-theme="dark"] #adminNav .nav.active{background:#243958!important;color:#f0ce75!important}
+html[data-theme="dark"] #page-jobs .filters input,html[data-theme="dark"] #page-jobs .filters select,html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{background:#0d1829!important;color:#e8eef8!important;border-color:#3b4b65!important}
+html[data-theme="dark"] .job,html[data-theme="dark"] .job:nth-child(n){background:#172842!important;color:#e8eef8!important;border-color:#314a6e!important;box-shadow:0 3px 10px #0003!important}
+html[data-theme="dark"] .job:hover{background:#1c3150!important;border-color:#58749f!important}
+html[data-theme="dark"] .job .company,html[data-theme="dark"] .job h3,html[data-theme="dark"] .job .meta{color:#e3ebf7!important}
+html[data-theme="dark"] .job .tag{background:#223652!important;color:#dce6f5!important;border-color:#3b5273!important}
+html[data-theme="dark"] .match-ring{background:conic-gradient(#d8ad4c var(--score),#31415a 0)!important}
+html[data-theme="dark"] .match-core{background:#101d30!important;color:#f1f5fb!important}
+html[data-theme="dark"] .actions button[data-act="saved"],html[data-theme="dark"] .actions button[data-act="applied"]{background:#1c2d46!important;color:#f0ce75!important;border-color:#50688c!important}
+html[data-theme="dark"] .actions a,html[data-theme="dark"] .primary{background:#d8ad4c!important;color:#10294f!important;border-color:#d8ad4c!important}
+html[data-theme="dark"] .upload-zone{background:#172842!important;border-color:#3b5273!important}
+html[data-theme="dark"] .service-card .service-icon{background:#3a321e!important;color:#f0ce75!important}
+html[data-theme="dark"] .career-cta{background:#172842!important;border-color:#314a6e!important}
+html[data-theme="dark"] .bar-fill{background:#d8ad4c!important}
+html[data-theme="dark"] .stats>div:nth-child(n){background:#172842!important;border-color:#314a6e!important}
+html[data-theme="dark"] .stats>div:nth-child(4){background:#3a321e!important;border-color:#65542b!important}
+html[data-theme="dark"] .stats>div small{color:#c1ccdd!important}html[data-theme="dark"] .stats>div strong{color:#f0ce75!important}
+html[data-theme="dark"] .tag.sponsor{background:#3a321e!important;color:#f0ce75!important;border-color:#65542b!important}
+html[data-theme="dark"] .empty{background:#121e31!important;color:#dbe5f3!important;border-color:#34435c!important}
+html[data-theme="dark"] #toast{background:#d8ad4c!important;color:#10294f!important}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
