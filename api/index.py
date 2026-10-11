@@ -15,11 +15,20 @@ if str(ROOT) not in sys.path:
 
 import app as portal_app
 
+# Vercel may reuse a warm Python worker across requests. Avoid running schema
+# creation and admin seeding on every request. Cache only successful startup;
+# if initialization fails, a later request can retry.
+_database_initialized = False
+
 
 class handler(portal_app.Handler):
     def _initialize_database(self):
+        global _database_initialized
+        if _database_initialized:
+            return True
         try:
             portal_app.init_db()
+            _database_initialized = True
             return True
         except Exception as exc:
             print("FidoraJobs database initialization failed:")
