@@ -1,14 +1,20 @@
-"""Vercel serverless entrypoint for the FidoraJobs API."""
-import importlib.util
+"""Vercel Python serverless entrypoint.
+
+Use a normal import so the runtime can resolve the project module reliably.
+Database initialization is lazy and happens on the first request, returning a
+JSON error rather than failing module import if Supabase is not configured.
+"""
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location("fidorapath_app", ROOT / "app.py")
-app = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(app)
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-# PostgreSQL is persistent; initialize idempotent schema and admin account.
-app.init_db()
+import app as portal_app
 
-class handler(app.Handler):
-    pass
+
+class handler(portal_app.Handler):
+    def __init__(self, *args, **kwargs):
+        portal_app.init_db()
+        super().__init__(*args, **kwargs)
