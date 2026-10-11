@@ -1364,7 +1364,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send_json({"ok": False, "database": "error", "type": type(exc).__name__, "detail": str(exc)[:300]}, 500)
         if path=="/api/me":
             cookie = self.headers.get("Cookie", "")
-            match = re.search(r"(?:^|;\\s*)fp_session=([^;]+)", cookie)
+            match = re.search(r"(?:^|;\s*)fp_session=([^;]+)", cookie)
             if not match:
                 return self.send_json({"user": None, "session_status": "cookie_missing"})
             try:
