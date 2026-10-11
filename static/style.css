@@ -31,3 +31,86 @@ html[data-theme="dark"] .table,html[data-theme="dark"] .date-filter{border-color
 html[data-theme="dark"] .logout-top{background:#2a1b25;color:#ffd6d6;border-color:#69404a}
 @media(max-width:760px){.header-actions{width:100%;justify-content:flex-start}.header-actions button{flex:1}.logout-top{min-width:90px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+
+/* Mobile-first refinement: compact layouts, comfortable touch targets, and a bottom navigation rail. */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button,.actions a,.light,.primary,.secondary{min-height:40px}
+.page:not(.hidden){animation:riseIn .22s ease both}
+.job,.panel,.stats>div,.service-card{contain:layout style}
+.application-filters{display:flex;flex-direction:column;gap:10px;align-items:stretch;margin:14px 0 18px}
+.application-filters>.date-filter{min-width:0;max-width:250px}
+.application-filters select{min-height:42px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+.date-tools{display:flex;align-items:end;gap:10px;flex-wrap:wrap}
+.date-tools .date-filter{min-width:0;flex:1 1 145px}
+.date-tools .secondary{flex:0 0 auto}
+#appliedJobs{margin-top:12px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #d7a12a80;outline-offset:2px}
+@media(max-width:700px){
+  body{font-size:14px}
+  .sidebar{position:fixed;z-index:30;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;min-height:0;padding:7px max(8px,env(safe-area-inset-left)) calc(7px + env(safe-area-inset-bottom));display:flex;flex-direction:row;align-items:stretch;gap:4px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;border-right:0;border-top:1px solid var(--line);background:#fffffff2;backdrop-filter:blur(14px);box-shadow:0 -8px 28px #0c254510;scrollbar-width:none}
+  .sidebar::-webkit-scrollbar{display:none}
+  .sidebar>.brand,.sidebar>small,.sidebottom{display:none!important}
+  .sidebar>.nav{flex:0 0 auto;width:auto;min-width:66px;max-width:130px;min-height:48px;margin:0;padding:8px 10px;display:flex;align-items:center;justify-content:center;border-radius:10px;font-size:11px;line-height:1.25;text-align:center;white-space:nowrap}
+  .sidebar>.nav.active{box-shadow:inset 0 -3px var(--gold)}
+  #adminNav{display:contents}
+  #adminNav>small{display:none!important}
+  #adminNav .nav{flex:0 0 auto;min-height:48px;width:auto;margin:0;padding:8px 10px}
+  main{margin:0;padding-bottom:calc(72px + env(safe-area-inset-bottom));min-width:0}
+  header{display:flex;flex-direction:column;align-items:flex-start;gap:13px;padding:17px 15px}
+  header h1{font-size:21px;line-height:1.25}
+  .header-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:8px}
+  .header-actions button{width:100%;min-width:0;padding:10px 8px;font-size:12px}
+  .content{padding:16px 12px}
+  .banner{padding:22px 18px;border-radius:14px}
+  .banner h2{font-size:22px;line-height:1.25}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0 24px}
+  .stats>div{min-width:0;padding:13px;border-radius:12px}
+  .stats strong{font-size:23px;margin:9px 0 5px;overflow-wrap:anywhere}
+  .stats p{font-size:11px;line-height:1.4}
+  .sect{align-items:flex-start;flex-direction:column;gap:12px}
+  .sect h2,.content h2{font-size:20px;line-height:1.25;margin-bottom:0}
+  .job{grid-template-columns:minmax(0,1fr);gap:13px;padding:14px;border-radius:13px}
+  .job h3{font-size:15px;line-height:1.45}
+  .meta{font-size:11px;gap:8px}
+  .sidejob{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .match-ring{width:58px;height:58px;flex:0 0 auto}
+  .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;flex:1;min-width:180px}
+  .actions button,.actions a{display:flex;align-items:center;justify-content:center;min-height:42px;padding:9px 8px;font-size:11px;text-align:center}
+  .filters,.filter-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:9px}
+  .filters input,.filters select,.filter-grid input,.filter-grid select,.filter-grid button{grid-column:auto;width:100%;min-width:0;min-height:44px}
+  .date-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:9px}
+  .date-tools .date-filter{min-width:0;width:100%;font-size:11px}
+  .date-tools input[type=date]{width:100%;min-width:0;min-height:44px;padding:9px 7px}
+  .date-tools .secondary{grid-column:span 2;width:100%}
+  .application-filters>.date-filter{max-width:none;width:100%}
+  .application-filters select{width:100%;min-height:44px}
+  .monthly-panel{padding:15px;margin:20px 0}
+  .bar-chart{height:132px;gap:3px}
+  .bar-track{height:85px}
+  .bar-column small{font-size:9px}
+  .panel{padding:16px}
+  .columns{grid-template-columns:minmax(0,1fr)}
+  .service-grid{grid-template-columns:minmax(0,1fr)}
+  .service-card img{height:150px}
+  .career-hero{padding:22px 17px}
+  .career-orbit{height:175px}
+  .sample-showcase{grid-template-columns:minmax(0,1fr)}
+  .career-cta{padding:18px}
+  .career-cta a{white-space:normal}
+  .date-filter input,.date-filter select{font-size:16px}
+  .loginform{width:calc(100% - 36px);padding:32px 0}
+  .upload-zone{padding:20px 12px;text-align:center}
+}
+@media(min-width:701px) and (max-width:1000px){
+  .content{padding:22px 20px}
+  .sidebar{width:205px}
+  main{margin-left:205px}
+  .filter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .filter-grid input{grid-column:span 2}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
