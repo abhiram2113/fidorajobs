@@ -114,3 +114,31 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* Refined action controls, date filter, resume status and accessible mobile cards */
+.job-date-filter{display:flex;flex-direction:column;gap:5px;justify-content:center;min-width:160px;font-size:11px;font-weight:700;color:var(--muted)}
+.job-date-filter input{width:100%;min-width:0;min-height:42px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font:inherit;font-size:13px}
+.actions{display:flex;flex-wrap:wrap;gap:7px;align-items:stretch}
+.actions button,.actions a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 12px;border:1px solid transparent;border-radius:9px;font-size:11px;font-weight:800;line-height:1.25;text-align:center;white-space:normal;overflow-wrap:anywhere;transition:background .18s,border-color .18s,transform .18s}
+.actions button[data-act="saved"]{background:#f3f7ff;color:#234e9b;border-color:#d5e2ff}
+.actions button[data-act="saved"]:hover{background:#e5eeff;border-color:#a9c4ff}
+.actions button[data-act="applied"]{background:#e9f7ef;color:#176541;border-color:#bfe7ce}
+.actions button[data-act="applied"]:hover{background:#d8f0e2;border-color:#8fd3aa}
+.actions a{background:var(--g);color:#fff;border-color:var(--g);text-decoration:none}
+.actions a:hover{background:#0f3b30;transform:translateY(-1px)}
+.actions button:focus-visible,.actions a:focus-visible{outline:3px solid #d7a12a80;outline-offset:2px}
+#nResume{font-size:clamp(18px,2vw,25px)}
+html[data-theme="dark"] .actions button[data-act="saved"]{background:#1b2d4b;color:#c6d9ff;border-color:#354f78}
+html[data-theme="dark"] .actions button[data-act="applied"]{background:#153a2c;color:#b8f0cf;border-color:#286b4c}
+html[data-theme="dark"] .job-date-filter input{background:#0b1423;color:var(--ink);border-color:#344359}
+@media(max-width:700px){
+  .filter-grid{grid-template-columns:minmax(0,1fr)}
+  .job-date-filter{min-width:0;width:100%;font-size:12px}
+  .job-date-filter input{font-size:16px;min-height:46px}
+  .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;min-width:0;gap:8px}
+  .actions button,.actions a{width:100%;min-width:0;min-height:44px;padding:10px 7px;font-size:12px;white-space:normal;overflow-wrap:anywhere}
+  .sidejob{align-items:stretch}
+  .sidejob .match-wrap{align-self:flex-start}
+  .stats>div{overflow:hidden}
+  .stats p{overflow-wrap:anywhere}
+}
