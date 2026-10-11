@@ -290,7 +290,10 @@ class PGCursor:
         sql = sql.replace("INSERT OR IGNORE INTO", "INSERT INTO")
         if "INSERT OR IGNORE" not in sql and "INSERT INTO saved_jobs" in sql:
             sql = sql.rstrip().rstrip(";") + " ON CONFLICT(user_id,job_id) DO NOTHING"
-        sql = sql.replace("?", "%s")
+        # psycopg uses percent-style placeholders. Escape literal percent signs
+        # in SQL (for example LIKE '%sponsor%') before translating SQLite ? params.
+        # Otherwise PostgreSQL reports invalid placeholder syntax on schema setup.
+        sql = sql.replace("%", "%%").replace("?", "%s")
         try:
             self.cursor.execute(sql, params or (), prepare=False)
         except Exception as exc:
