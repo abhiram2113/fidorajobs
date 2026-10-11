@@ -381,3 +381,38 @@ html[data-theme="dark"] .tag.sponsor{background:#3a321e!important;color:#f0ce75!
 html[data-theme="dark"] .empty{background:#121e31!important;color:#dbe5f3!important;border-color:#34435c!important}
 html[data-theme="dark"] #toast{background:#d8ad4c!important;color:#10294f!important}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+/* Contrast and overflow fixes for the navy/gold theme, including night mode */
+.job .tags{min-width:0;max-width:100%;overflow:hidden}
+.job .tag{box-sizing:border-box;max-width:100%;white-space:normal!important;overflow-wrap:anywhere!important;word-break:break-word!important;hyphens:auto;line-height:1.4;max-height:3.1em;overflow:hidden}
+.job .tags .tag{flex:0 1 auto}
+.job .company,.job h3,.job .meta,.job .tag{min-width:0}
+html[data-theme="dark"]{--ink:#eef3fc;--muted:#c0cce0;--line:#3b4c66;--paper:#0c1422}
+html[data-theme="dark"] body{color:#eef3fc!important}
+html[data-theme="dark"] #title,html[data-theme="dark"] #crumb,html[data-theme="dark"] .content h1,html[data-theme="dark"] .content h2,html[data-theme="dark"] .content h3,html[data-theme="dark"] .content h4,html[data-theme="dark"] .content label,html[data-theme="dark"] .content p,html[data-theme="dark"] .content small,html[data-theme="dark"] .muted{color:#e2eaf7}
+html[data-theme="dark"] .muted,html[data-theme="dark"] .content small{color:#b9c7dc}
+html[data-theme="dark"] .panel,html[data-theme="dark"] .stats>div,html[data-theme="dark"] .service-card,html[data-theme="dark"] .loginform,html[data-theme="dark"] .monthly-panel{background:#121e31!important;color:#e8eef8!important;border-color:#344862!important}
+html[data-theme="dark"] .stats>div strong,html[data-theme="dark"] .stats>div small{color:#eaf0fa!important}
+html[data-theme="dark"] .stats>div:nth-child(4) strong,html[data-theme="dark"] .stats>div:nth-child(4) small{color:#f0ce75!important}
+html[data-theme="dark"] .tag,html[data-theme="dark"] .table .tag{background:#233753!important;color:#edf3fc!important;border-color:#465d7c!important}
+html[data-theme="dark"] .tag.sponsor{background:#44391e!important;color:#ffe6a0!important;border-color:#796431!important}
+html[data-theme="dark"] .actions button,html[data-theme="dark"] .secondary,html[data-theme="dark"] button.secondary{background:#20334e!important;color:#f0ce75!important;border-color:#50698b!important}
+html[data-theme="dark"] .actions a,html[data-theme="dark"] .primary{background:#d8ad4c!important;color:#132846!important;border-color:#d8ad4c!important}
+html[data-theme="dark"] .job .company,html[data-theme="dark"] .job h3,html[data-theme="dark"] .job .meta{color:#edf3fc!important}
+html[data-theme="dark"] .job .tag{background:#243955!important;color:#eaf1fc!important;border-color:#415979!important}
+html[data-theme="dark"] .job .tag.sponsor{background:#44391e!important;color:#ffe6a0!important;border-color:#796431!important}
+html[data-theme="dark"] .match-core{background:#101d30!important;color:#f8fafc!important}
+html[data-theme="dark"] .match-core strong,html[data-theme="dark"] .match-core small{color:#f8fafc!important}
+html[data-theme="dark"] .upload-zone{background:#172842!important;color:#edf3fc!important;border-color:#435a79!important}
+html[data-theme="dark"] .career-cta{background:#172842!important;color:#edf3fc!important;border-color:#435a79!important}
+html[data-theme="dark"] .career-cta *{color:#edf3fc}
+html[data-theme="dark"] .service-icon{background:#3a321e!important;color:#ffe6a0!important}
+html[data-theme="dark"] .empty{background:#121e31!important;color:#eaf0fa!important;border-color:#43536d!important}
+html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{background:#0d1829!important;color:#f0f4fb!important;border-color:#465a77!important}
+html[data-theme="dark"] input::placeholder,html[data-theme="dark"] textarea::placeholder{color:#aebdd2!important;opacity:1}
+html[data-theme="dark"] .nav,html[data-theme="dark"] .sidebar .nav{color:#d5dfed!important}
+html[data-theme="dark"] .nav.active,html[data-theme="dark"] .sidebar .nav.active{background:#243a58!important;color:#f4d47a!important}
+html[data-theme="dark"] .brand span{color:#f0ce75!important}
+html[data-theme="dark"] .chart-total,html[data-theme="dark"] .bar-value,html[data-theme="dark"] .bar-column small{color:#dbe5f4!important}
+html[data-theme="dark"] .table,html[data-theme="dark"] .table b,html[data-theme="dark"] .table small{color:#eaf0fa!important}
+html[data-theme="dark"] #loginError,html[data-theme="dark"] .error{color:#ffb4b4!important}
