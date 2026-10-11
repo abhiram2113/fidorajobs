@@ -1199,7 +1199,7 @@ class Handler(BaseHTTPRequestHandler):
                 print("FidoraJobs login database operation failed:")
                 traceback.print_exc()
                 return self.send_json({"error": "Login database operation failed", "type": type(exc).__name__, "detail": str(exc)[:300]}, 500)
-            cookie = f"fp_session={token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=1209600"
+            cookie = f"fp_session={token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=1209600" + ("; Secure" if os.getenv("VERCEL") else "")
             return self.send_json({"id": row["id"], "name": row["name"], "email": email}, headers={"Set-Cookie": cookie})
         user = self.require_user()
         if not user: return
