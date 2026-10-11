@@ -11,14 +11,14 @@
 <section id="page-sources" class="page hidden"><small>DATA CONNECTORS</small><h2>Live job sources</h2><p>Add public Greenhouse, Lever or Ashby board IDs to extend coverage.</p><div class="columns"><form id="sourceForm" class="panel"><h3>Add career board</h3><label>Provider<select id="provider"><option>greenhouse</option><option>lever</option><option>ashby</option></select></label><label>Board identifier<input id="board" required placeholder="company-board-slug"></label><label>Display name<input id="label"></label><label>Region<input id="region" value="US"></label><button class="primary">Add source</button><p id="sourceMsg"></p><p class="muted">Coverage is limited to configured boards; not all companies use these ATS providers.</p></form><div class="panel"><h3>Configured sources</h3><div id="sources"></div><button id="refreshFeeds" class="secondary">Refresh all feeds</button><p id="feedMsg"></p></div></div></section>
 </div>
 <div id="fidoraAssistant" class="assistant-widget hidden" aria-live="polite">
-  <button id="assistantFab" class="assistant-fab" type="button" aria-label="Open FidoraJobs assistant" aria-expanded="false"><span class="assistant-spark">✦</span><span class="assistant-fab-label">Career AI</span></button>
+  <button id="assistantFab" class="assistant-fab" type="button" aria-label="Open FidoraJobs assistant" aria-expanded="false"><span class="assistant-spark">✦</span><span class="assistant-fab-label">Career Assistant</span></button>
   <a class="assistant-support" href="mailto:support@fidorapath.in?subject=FidoraJobs%2024%2F7%20Support" aria-label="Contact FidoraPath 24/7 support"><span aria-hidden="true">✉</span><span>24/7 Help & Support</span></a>
-  <section id="assistantPanel" class="assistant-panel hidden" role="dialog" aria-label="FidoraJobs assistant">
-    <header class="assistant-head"><div class="assistant-avatar">✦</div><div class="assistant-heading"><strong>Fidora Assistant</strong><small>Career workspace guide</small></div><button id="assistantClose" class="assistant-close" type="button" aria-label="Close assistant">×</button></header>
+  <section id="assistantPanel" class="assistant-panel hidden" role="dialog" aria-label="FidoraPath career assistant">
+    <header class="assistant-head"><div class="assistant-avatar">✦</div><div class="assistant-heading"><strong>FidoraPath Career Assistant</strong><small>Career workspace guide</small></div><button id="assistantClose" class="assistant-close" type="button" aria-label="Close assistant">×</button></header>
     <div id="assistantMessages" class="assistant-messages"><div class="assistant-msg assistant-bot">Hi! I can help you find jobs, understand match scores, improve your resume, and use your application tracker.</div></div>
     <div class="assistant-quick" id="assistantQuick"><button type="button" data-assist="jobs">Find matching jobs</button><button type="button" data-assist="resume">Resume help</button><button type="button" data-assist="sponsor">H-1B evidence</button></div>
-    <form id="assistantForm" class="assistant-form"><input id="assistantInput" type="text" maxlength="500" placeholder="Ask about your career workspace…" autocomplete="off" aria-label="Ask Fidora Assistant"><button type="submit" aria-label="Send message">➤</button></form>
-    <p class="assistant-disclaimer">Guidance assistant · Verify job and visa details with the employer.</p>
+    <form id="assistantForm" class="assistant-form"><input id="assistantInput" type="text" maxlength="500" placeholder="Ask about jobs, resumes, or the portal…" autocomplete="off" aria-label="Ask FidoraPath Career Assistant"><button type="submit" aria-label="Send message">➤</button></form>
+    <p class="assistant-disclaimer">Portal help · FidoraPath career services available when you need them.</p>
   </section>
 </div>
 <footer>© FidoraPath · Direct employer links</footer></main></div><script src="/app.js"></script></body></html>
