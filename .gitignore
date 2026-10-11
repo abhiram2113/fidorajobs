@@ -1,0 +1,21 @@
+.env
+data/
+__pycache__/
+*.pyc
+
+.env
+.env.*
+!.env.example
+.env copy.example
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite
+*.sqlite3
+.venv/
+venv/
+
+.env
+.env.*
+!.env.example
+.env copy.example
