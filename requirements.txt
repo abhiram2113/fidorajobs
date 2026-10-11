@@ -1,1 +1,2 @@
-# Standard library only; no pip packages required.
+pypdf>=5.0.0
+supabase>=2.0.0
