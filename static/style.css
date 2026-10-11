@@ -206,3 +206,67 @@ input,select,textarea{max-width:100%;box-sizing:border-box}
 @media(hover:none){
   .job:hover,.service-card:hover,.sample-showcase>div:hover{transform:none;box-shadow:none}
 }
+
+/* FidoraJobs colorful solid-color redesign inspired by the provided job-board reference */
+:root{--g:#226c50;--gold:#e8b94f;--ink:#1d2939;--muted:#64748b;--line:#e2e8f0;--paper:#f5f7fb}
+body{background:#f5f7fb;color:#1d2939}
+.hero{background:#174b3d!important}
+.banner{background:#246c53!important;color:#fff!important}
+.banner small,.hero small,.content>section>small{color:#f5d77e}
+.banner h2,.banner p{color:#fff}
+.panel,.stats>div,.loginform,.service-card,.sample-showcase>div{background:#fff;border-color:#e4e9f1;box-shadow:0 3px 12px #1c2b3a08}
+.primary,.actions a{background:#246c53!important;color:#fff!important;border-color:#246c53!important}
+.primary:hover,.actions a:hover{background:#18523e!important}
+.secondary{background:#fff;color:#334155;border:1px solid #d4dce7}
+.nav.active{background:#e0f2e8;color:#17603f}
+.sidebar{background:#fff}
+.career-hero{background:#244b9b!important}
+.career-hero:before,.career-orbit,.orbit-ring,.orbit-core{animation:none!important}
+.career-hero h2 span{color:#f7d46b}
+.service-card .service-icon{background:#fff0c2;color:#805b00}
+.career-cta{background:#e4f5e9;border-color:#b9dfc7}
+.upload-zone{background:#effaf3;border-color:#91c9a5}
+.login{background:#fff}
+#page-jobs .filters{background:#fff;border:1px solid #e4e9f1;border-radius:16px;padding:14px;box-shadow:0 3px 12px #1c2b3a08}
+#page-jobs .filters input,#page-jobs .filters select{background:#fff;border:1px solid #d9e1eb;border-radius:10px;color:#1d2939;min-height:44px}
+.jobs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:14px}
+.job{display:flex;flex-direction:column;justify-content:space-between;min-width:0;gap:16px;padding:17px;border:1px solid transparent;border-radius:17px;background:#e9e7ff;box-shadow:0 3px 10px #1d293908;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;animation:jobCardIn .32s ease both}
+.job:nth-child(6n+1){background:#e8e5ff;border-color:#d6d0ff}
+.job:nth-child(6n+2){background:#dff3ff;border-color:#c3e6fa}
+.job:nth-child(6n+3){background:#e1f7df;border-color:#c7edc2}
+.job:nth-child(6n+4){background:#ffe7e9;border-color:#f6cfd3}
+.job:nth-child(6n+5){background:#fff0d5;border-color:#f2dfb5}
+.job:nth-child(6n){background:#e4edf4;border-color:#d3e0ea}
+.job:hover{transform:translateY(-3px);box-shadow:0 12px 25px #1d29391a;border-color:#9aa9ba}
+.job>div:first-child{min-width:0}
+.job .company{font-size:11px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#44536a}
+.job h3{font-size:17px;line-height:1.35;letter-spacing:-.25px;color:#182536;margin:7px 0 10px;overflow-wrap:anywhere}
+.job .meta{display:flex;flex-wrap:wrap;gap:8px;color:#435168;font-size:11px;line-height:1.5}
+.job .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.job .tag{background:#ffffffb8;color:#344256;border:1px solid #ffffffd9;border-radius:999px;padding:5px 8px;font-size:10px;line-height:1.35;white-space:normal}
+.sidejob{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+.match-ring{width:57px;height:57px;flex:0 0 auto}
+.match-core{background:#ffffffd9}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;min-width:0;flex:1}
+.actions button,.actions a{min-width:0;min-height:42px;padding:9px 8px;border-radius:10px;font-size:11px;font-weight:800;line-height:1.25;white-space:normal;overflow-wrap:anywhere}
+.actions button[data-act="saved"]{background:#fff!important;color:#344e9b!important;border:1px solid #c8d5f6!important}
+.actions button[data-act="applied"]{background:#fff!important;color:#176541!important;border:1px solid #b8dfc8!important}
+.actions a{grid-column:1/-1}
+.actions button:hover{filter:brightness(.97);transform:translateY(-1px)}
+.empty{grid-column:1/-1;background:#fff;border:1px dashed #cbd5e1;padding:22px}
+.stats>div:nth-child(1){background:#e0f3e7;border-color:#c7e8d2}
+.stats>div:nth-child(2){background:#e8e5ff;border-color:#d8d2ff}
+.stats>div:nth-child(3){background:#fff0d5;border-color:#f1dfb9}
+.stats>div:nth-child(4){background:#dff3ff;border-color:#c7e7f7}
+.stats>div small{color:#465569}
+.stats>div strong{color:#172b40}
+.monthly-panel{background:#fff}
+.bar-fill{background:#367f60!important}
+#toast{background:#203e32}
+@keyframes jobCardIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:1100px){.jobs{grid-template-columns:repeat(3,minmax(0,1fr))}.job{padding:16px}.job h3{font-size:16px}.sidejob{align-items:flex-start;flex-direction:column}.actions{width:100%;flex:initial}.match-wrap{align-self:flex-start}}
+@media(min-width:701px) and (max-width:1099px){.jobs{grid-template-columns:repeat(2,minmax(0,1fr))}.job{padding:14px}.sidejob{align-items:flex-start;flex-direction:column}.actions{width:100%;flex:initial}}
+@media(max-width:700px){.jobs{grid-template-columns:minmax(0,1fr);gap:11px}.job{padding:15px;gap:13px}.job h3{font-size:16px}.sidejob{display:grid;grid-template-columns:54px minmax(0,1fr);align-items:center;gap:9px}.actions{grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.actions a{grid-column:1/-1}.job:hover{transform:none;box-shadow:0 3px 10px #1d293908}.stats>div{box-shadow:none}}
+/* Use solid fills throughout: color comes from the surface, not gradient effects. */
+.hero,.banner,.career-hero,.career-cta,.upload-zone,.primary,.actions a,.bar-fill{background-image:none!important}
+@media(prefers-reduced-motion:reduce){.job{animation:none!important;transition:none!important}.job:hover{transform:none}}
