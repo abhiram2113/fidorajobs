@@ -1185,7 +1185,7 @@ class Handler(BaseHTTPRequestHandler):
                 import traceback
                 print("FidoraJobs login database operation failed:")
                 traceback.print_exc()
-                return self.send_json({"error": "Login database operation failed", "type": type(exc).__name__}, 500)
+                return self.send_json({"error": "Login database operation failed", "type": type(exc).__name__, "detail": str(exc)[:300]}, 500)
             cookie = f"fp_session={token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=1209600"
             return self.send_json({"id": row["id"], "name": row["name"], "email": email}, headers={"Set-Cookie": cookie})
         user = self.require_user()
@@ -1333,6 +1333,15 @@ class Handler(BaseHTTPRequestHandler):
         return self.send_json({"error":"Not found"},404)
 
     def api_get(self,path,query):
+        if path == "/api/health":
+            try:
+                with db() as c:
+                    users = c.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+                    sessions = c.execute("SELECT COUNT(*) FROM sessions").fetchone()[0]
+                return self.send_json({"ok": True, "database": "connected", "users": users, "sessions": sessions})
+            except Exception as exc:
+                print("FidoraJobs health check failed:", type(exc).__name__, str(exc)[:500])
+                return self.send_json({"ok": False, "database": "error", "type": type(exc).__name__, "detail": str(exc)[:300]}, 500)
         if path=="/api/me":
             user=self.current_user()
             return self.send_json({"user":None} if not user else {"user":{"id":user["id"],"name":user["name"],"email":user["email"],"role":user["role"],"target_roles":user["target_roles"],"target_skills":user["target_skills"]}})
