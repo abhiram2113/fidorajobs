@@ -467,3 +467,13 @@ html[data-theme="dark"] .breadcrumb,html[data-theme="dark"] .breadcrumbs,html[da
 html[data-theme="dark"] body #app{position:relative;z-index:1}
 @keyframes nightAmbient{0%{background-position:0% 30%;transform:translate3d(-.5%,0,0) scale(1)}50%{background-position:70% 55%;transform:translate3d(.5%,-.4%,0) scale(1.025)}100%{background-position:100% 20%;transform:translate3d(0,.5%,0) scale(1.01)}}
 @media(prefers-reduced-motion:reduce){html[data-theme="dark"] body:before{animation:none!important}}
+
+.assistant-widget{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.assistant-support{display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 14px;border:1px solid #d8ad4c;border-radius:999px;background:#fff;color:#173b70;text-decoration:none;font-size:12px;font-weight:800;box-shadow:0 5px 18px #10294f1c}
+.assistant-support:hover{background:#fff4d8;text-decoration:none}
+.assistant-support span:first-child{font-size:16px;color:#173b70}
+.assistant-form button:disabled{opacity:.55;cursor:wait}
+.assistant-thinking{opacity:.8;font-style:italic}
+html[data-theme="dark"] .assistant-support{background:#172842;color:#f0ce75;border-color:#d8ad4c}
+html[data-theme="dark"] .assistant-support span:first-child{color:#f0ce75}
+@media(max-width:700px){.assistant-widget{gap:7px}.assistant-support{min-height:42px;padding:10px 12px;font-size:11px}}
