@@ -477,3 +477,12 @@ html[data-theme="dark"] body #app{position:relative;z-index:1}
 html[data-theme="dark"] .assistant-support{background:#172842;color:#f0ce75;border-color:#d8ad4c}
 html[data-theme="dark"] .assistant-support span:first-child{color:#f0ce75}
 @media(max-width:700px){.assistant-widget{gap:7px}.assistant-support{min-height:42px;padding:10px 12px;font-size:11px}}
+
+/* Compact help stack: keep chat clear of support link and page header */
+.assistant-widget{gap:8px}
+.assistant-panel{bottom:108px;max-height:calc(100dvh - 145px)}
+.assistant-support{position:relative;z-index:1}
+.assistant-fab{position:relative;z-index:1}
+.assistant-disclaimer{color:#64748b}
+html[data-theme="dark"] .assistant-disclaimer{color:#c1ccdd}
+@media(max-width:700px){.assistant-panel{bottom:105px;height:min(62dvh,520px);max-height:calc(100dvh - 145px);min-height:300px}.assistant-widget{right:10px;bottom:calc(10px + env(safe-area-inset-bottom));gap:7px}}
