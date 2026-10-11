@@ -1203,6 +1203,56 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json({"id": row["id"], "name": row["name"], "email": email}, headers={"Set-Cookie": cookie})
         user = self.require_user()
         if not user: return
+        if path == "/api/assistant/chat":
+            api_key = os.getenv("AI_API_KEY", "").strip() or os.getenv("OPENAI_API_KEY", "").strip()
+            if not api_key:
+                return self.send_json({"error":"The AI assistant is not connected yet. FidoraPath support can help at support@fidorapath.in. The portal administrator needs to configure AI_API_KEY in Vercel to enable AI chat."}, 503)
+            messages = data.get("messages", [])
+            if not isinstance(messages, list):
+                return self.send_json({"error":"Send a valid conversation history."}, 400)
+            safe_messages = []
+            for item in messages[-12:]:
+                if not isinstance(item, dict) or item.get("role") not in ("user", "assistant"):
+                    continue
+                content = str(item.get("content", "")).strip()[:2500]
+                if content:
+                    safe_messages.append({"role": item["role"], "content": content})
+            if not safe_messages or safe_messages[-1]["role"] != "user":
+                return self.send_json({"error":"Please enter a question first."}, 400)
+            if sum(len(m["content"]) for m in safe_messages) > 12000:
+                return self.send_json({"error":"This conversation is too long. Start a new question."}, 413)
+            system_prompt = (
+                "You are Fidora Assistant, a helpful, capable career and job-search assistant inside FidoraJobs, "
+                "a FidoraPath service. Answer naturally and thoughtfully, support follow-up questions, explain job search, "
+                "resume writing, ATS formatting, LinkedIn profiles, application tracking, interviews, and job-match estimates. "
+                "Never claim a job sponsors H-1B unless there is explicit, current employer evidence; distinguish evidence from "
+                "guarantees and advise checking the official employer career page. Match percentages are estimates, not hiring "
+                "probabilities. Do not invent portal data, job listings, employer facts, or visa/legal advice. Ask concise clarifying "
+                "questions when useful. Do not claim to have inspected the user's resume or applications: no resume, password, "
+                "email, or application records are provided to you by default. Respect privacy and ask the user to paste only "
+                "information they are comfortable sharing. Mention FidoraPath services (resume/ATS optimization, LinkedIn profile "
+                "support, and job application assistance) only when genuinely relevant, as an optional way to get help; never pressure "
+                "the user and never display service prices. Do not say you are ChatGPT or Gemini; you are Fidora Assistant."
+            )
+            endpoint = os.getenv("AI_BASE_URL", "https://api.openai.com/v1/chat/completions").strip()
+            model = os.getenv("AI_MODEL", "gpt-4o-mini").strip()
+            if not endpoint.startswith("https://"):
+                return self.send_json({"error":"AI_BASE_URL must use HTTPS."}, 500)
+            payload = json.dumps({"model":model,"messages":[{"role":"system","content":system_prompt}]+safe_messages,"temperature":0.5,"max_tokens":900}).encode("utf-8")
+            req = urllib.request.Request(endpoint, data=payload, headers={"Content-Type":"application/json","Authorization":"Bearer "+api_key}, method="POST")
+            try:
+                with urllib.request.urlopen(req, timeout=22) as response:
+                    result = json.loads(response.read(1_000_000).decode("utf-8"))
+                answer = str(result.get("choices", [{}])[0].get("message", {}).get("content", "")).strip()
+                if not answer:
+                    return self.send_json({"error":"The AI provider returned an empty response. Please try again."}, 502)
+                return self.send_json({"reply":answer[:10000],"model":model})
+            except urllib.error.HTTPError as exc:
+                print("Fidora Assistant provider error:", exc.code)
+                return self.send_json({"error":"The AI service could not complete that request. Check the AI provider key, model and billing configuration, then try again."}, 502)
+            except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, ValueError) as exc:
+                print("Fidora Assistant request failed:", type(exc).__name__)
+                return self.send_json({"error":"The AI service is temporarily unavailable. Please try again in a moment."}, 502)
         if path == "/api/profile":
             extracted = str(data.get("extracted_text", ""))[:MAX_RESUME_TEXT]
             filename = str(data.get("filename", "resume.txt"))[:160] or "resume.txt"
