@@ -1363,8 +1363,18 @@ class Handler(BaseHTTPRequestHandler):
                 print("FidoraJobs health check failed:", type(exc).__name__, str(exc)[:500])
                 return self.send_json({"ok": False, "database": "error", "type": type(exc).__name__, "detail": str(exc)[:300]}, 500)
         if path=="/api/me":
-            user=self.current_user()
-            return self.send_json({"user":None} if not user else {"user":{"id":user["id"],"name":user["name"],"email":user["email"],"role":user["role"],"target_roles":user["target_roles"],"target_skills":user["target_skills"]}})
+            cookie = self.headers.get("Cookie", "")
+            match = re.search(r"(?:^|;\\s*)fp_session=([^;]+)", cookie)
+            if not match:
+                return self.send_json({"user": None, "session_status": "cookie_missing"})
+            try:
+                user = self.current_user()
+            except Exception as exc:
+                print("FidoraJobs /api/me session lookup failed:", type(exc).__name__, str(exc)[:300])
+                return self.send_json({"user": None, "session_status": "lookup_error", "error_type": type(exc).__name__}, 503)
+            if not user:
+                return self.send_json({"user": None, "session_status": "cookie_present_session_not_valid"})
+            return self.send_json({"user":{"id":user["id"],"name":user["name"],"email":user["email"],"role":user["role"],"target_roles":user["target_roles"],"target_skills":user["target_skills"]}, "session_status":"valid"})
         user=self.require_user()
         if not user:return
         with db() as c:
