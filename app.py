@@ -292,8 +292,13 @@ class PGCursor:
             sql = sql.rstrip().rstrip(";") + " ON CONFLICT(user_id,job_id) DO NOTHING"
         # psycopg uses percent-style placeholders. Escape literal percent signs
         # in SQL (for example LIKE '%sponsor%') before translating SQLite ? params.
-        # Otherwise PostgreSQL reports invalid placeholder syntax on schema setup.
-        sql = sql.replace("%", "%%").replace("?", "%s")
+        # Translate SQLite named placeholders (:name) too; psycopg expects %(name)s.
+        # This is required for job imports, which pass dictionaries of values.
+        sql = sql.replace("%", "%%")
+        if isinstance(params, dict):
+            sql = re.sub(r"(?<!:):([A-Za-z_][A-Za-z0-9_]*)", lambda m: "%(" + m.group(1) + ")s", sql)
+        else:
+            sql = sql.replace("?", "%s")
         try:
             self.cursor.execute(sql, params or (), prepare=False)
         except Exception as exc:
