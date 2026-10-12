@@ -486,3 +486,35 @@ html[data-theme="dark"] .assistant-support span:first-child{color:#f0ce75}
 .assistant-disclaimer{color:#64748b}
 html[data-theme="dark"] .assistant-disclaimer{color:#c1ccdd}
 @media(max-width:700px){.assistant-panel{bottom:105px;height:min(62dvh,520px);max-height:calc(100dvh - 145px);min-height:300px}.assistant-widget{right:10px;bottom:calc(10px + env(safe-area-inset-bottom));gap:7px}}
+
+
+/* Mobile support control: compact circular help icon, safely above bottom navigation. */
+@media (max-width: 700px) {
+  .assistant-widget {
+    right: 12px;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    gap: 8px;
+  }
+  .assistant-support {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    gap: 0;
+    border-radius: 50%;
+    font-size: 0;
+    box-shadow: 0 6px 18px #10294f30;
+  }
+  .assistant-support span:last-child {
+    display: none;
+  }
+  .assistant-support span:first-child {
+    font-size: 18px;
+    line-height: 1;
+  }
+  .assistant-panel {
+    bottom: 60px;
+    max-height: calc(100dvh - 150px - env(safe-area-inset-bottom, 0px));
+  }
+}
