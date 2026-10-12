@@ -74,19 +74,22 @@
    button.disabled = true;
    status.textContent = "Sending your details securely…";
    try {
-     const response = await fetch("/api/payment-request", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
-     const result = await response.json().catch(() => ({}));
-     if (response.ok && result.ok) { location.href = "payment-pending.html"; return; }
-     if (response.status === 503) {
-       const subject = encodeURIComponent("FidoraJobs payment verification — " + plan.name);
-       const body = encodeURIComponent("Name: "+data.name+"\nMobile: "+data.phone+"\nEmail: "+data.email+"\nPlan: "+plan.name+" — ₹"+plan.amount+"\nUPI reference (UTR): "+data.utr+"\n\nPlease verify the payment manually.");
-       status.innerHTML = 'Email submission is not configured yet. <a href="mailto:support@fidorapath.in?subject='+subject+'&body='+body+'">Send these details to support@fidorapath.in</a>. Your payment is still pending manual verification.';
-     } else { status.textContent = result.error || "We couldn't send your request. Please email support@fidorapath.in with your name, mobile, plan and UPI reference number."; }
-   } catch {
-     const subject = encodeURIComponent("FidoraJobs payment verification — " + plan.name);
-     const body = encodeURIComponent("Name: "+data.name+"\nMobile: "+data.phone+"\nEmail: "+data.email+"\nPlan: "+plan.name+" — ₹"+plan.amount+"\nUPI reference (UTR): "+data.utr+"\n\nPlease verify the payment manually.");
-     status.innerHTML = 'Could not reach the support form. <a href="mailto:support@fidorapath.in?subject='+subject+'&body='+body+'">Email your details to support@fidorapath.in</a>.';
-   } finally { button.disabled = false; }
+     const subject = "FidoraJobs UPI payment verification — " + plan.name;
+   const body = [
+     "PAYMENT CLAIM — PLEASE VERIFY MANUALLY",
+     "",
+     "I have made a UPI payment and request verification. This message is not proof of payment.",
+     "Name: " + data.name,
+     "Mobile: " + data.phone,
+     "Email: " + data.email,
+     "Plan: " + plan.name,
+     "Amount: INR " + plan.amount,
+     "UPI reference (UTR): " + data.utr,
+     "UPI ID paid to: 9652956893@ybl"
+   ].join("\\n");
+   const mailto = "mailto:support@fidorapath.in?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+   status.innerHTML = 'Your email app has not sent anything yet. <a href="' + mailto + '">Open a pre-filled email to support</a>, review it and tap Send. Your payment remains pending until support verifies it.';
+   button.disabled = false;
  });
 })();
 </script></body></html>
