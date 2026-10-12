@@ -170,3 +170,121 @@
  .footer-layout .copyright{padding-top:13px;font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){.board-window,.jobboard-art,.jobboard-listing{animation:none!important;transform:none!important}}
+
+
+/* Mobile-first presentation: keep the marketing site editorial and easy to scan. */
+.time-benefits{display:grid;gap:0;border-top:1px solid #dce6d8}
+.time-benefits article{display:flex;align-items:flex-start;gap:15px;padding:19px 0;border-bottom:1px solid #dce6d8}
+.benefit-number{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#e5f1df;color:#477b48;font:800 11px var(--font-head)}
+.time-benefits article>span:last-child{display:block}
+.time-benefits b,.time-benefits small{display:block}
+.time-benefits b{font:700 15px/1.35 var(--font-head);color:#263b2e}
+.time-benefits small{margin-top:4px;font-size:12px;line-height:1.55;color:#6d7a70}
+@media(max-width:960px){
+ .container{width:min(100% - 42px,900px)}
+ .hero-grid{grid-template-columns:1fr .92fr;gap:22px}
+ .match-grid,.time-grid{gap:34px}
+ .jobboard-feature-grid{gap:30px}
+ .footer-layout{gap:18px 28px}
+}
+@media(max-width:700px){
+ html{scroll-padding-top:18px}
+ body{overflow-x:hidden}
+ .container{width:calc(100% - 36px);max-width:560px}
+ .site-header{position:relative;background:#fff;backdrop-filter:none}
+ .nav{min-height:68px;gap:12px}
+ .brand{gap:9px}
+ .brand-mark{width:36px;height:36px;border-radius:11px;font-size:20px}
+ .brand-word{font-size:18px}
+ .menu-toggle{width:44px;height:44px;display:grid;place-items:center;border:1px solid #e3eae1;border-radius:50%;background:#fff;font-size:21px}
+ .nav-links{top:68px;padding:8px 18px 16px;background:#fff;border-bottom:1px solid #e6ece4;box-shadow:0 14px 22px rgba(30,56,43,.09)}
+ .nav-links>a{min-height:45px;display:flex;align-items:center;padding:10px 2px;border-bottom:1px solid #edf0eb}
+ .nav-links>a:last-child{border-bottom:0}
+ .nav-links .nav-cta{justify-content:center;margin-top:10px;padding:12px 16px;border-radius:999px}
+ .hero{padding:42px 0 36px}
+ .hero-grid{grid-template-columns:1fr;gap:16px}
+ .hero-copy{padding:0}
+ .hero h1,.page-hero h1{font-size:clamp(37px,10.4vw,49px);line-height:1.07;letter-spacing:-.055em}
+ .hero h1{margin:15px 0 17px}
+ .hero-lede{font-size:16px;line-height:1.65;max-width:none}
+ .button-row{gap:10px;margin-top:22px}
+ .hero .button-row .button{flex:1 1 170px}
+ .page-hero .button-row{display:flex;flex-wrap:wrap}
+ .page-hero .button-row .button{flex:1 1 175px}
+ .board-scene{min-height:0;margin:0;padding:5px 0 0;overflow:visible}
+ .board-window{width:100%;max-width:520px;padding:17px 16px 14px;border-radius:18px;transform:none;animation:none;box-shadow:0 10px 26px rgba(30,56,43,.08)}
+ .scene-orbit,.scene-star,.float-note{display:none}
+ .board-topbar{gap:8px}
+ .board-live{font-size:7px;letter-spacing:.07em}
+ .board-intro{padding:15px 0 12px}
+ .board-intro>b{font-size:21px}
+ .filter-row{gap:6px}
+ .filter-row>span{font-size:8px}
+ .trust-items{min-height:0;display:grid;grid-template-columns:1fr;gap:8px;padding:16px 0}
+ .trust-items span{font-size:12px}
+ .section{padding:58px 0}
+ .section-heading h2,.match-copy h2,.time-copy h2{font-size:clamp(32px,8.5vw,38px);line-height:1.13}
+ .section-heading p{font-size:14px;line-height:1.65}
+ .pain-grid,.steps-grid,.feature-cards,.pricing-grid{grid-template-columns:1fr;gap:14px}
+ .pain-grid{margin-top:26px}
+ .pain-card{min-height:0;padding:19px;border-radius:15px}
+ .icon-illustration{height:80px}
+ .steps-grid{margin-top:26px}
+ .step-card{padding:17px;border-radius:15px}
+ .step-art{height:112px}
+ .flow-line{display:none}
+ .match-grid,.time-grid,.jobboard-feature-grid{grid-template-columns:1fr;gap:22px}
+ .match-explainer{padding:17px;border-radius:17px}
+ .explainer-top{flex-wrap:wrap;gap:7px;font-size:7px}
+ .explainer-role{gap:8px;margin-top:18px}
+ .match-breakdown>div{gap:8px;padding:10px}
+ .match-breakdown small{line-height:1.4}
+ .time-benefits article{gap:12px;padding:16px 0}
+ .time-benefits b{font-size:14px}
+ .time-benefits small{font-size:12px}
+ .section-final{padding:48px 0}
+ .final-card{padding:44px 20px 27px;border-radius:22px}
+ .final-card h2{font-size:clamp(34px,9vw,42px)}
+ .final-card p{font-size:14px;line-height:1.65}
+ .center-actions{display:flex;flex-direction:column;align-items:stretch}
+ .center-actions .button{width:100%}
+ .page-hero{padding:42px 0 32px}
+ .page-hero p{font-size:15px;line-height:1.65}
+ .page-wrap{padding:40px 0 62px}
+ .page-heading{margin-bottom:27px}
+ .page-heading h2{font-size:clamp(29px,8vw,36px)}
+ .page-heading p{font-size:14px}
+ .illustration-panel{grid-template-columns:1fr;gap:16px;padding:18px;border-radius:17px}
+ .panel-art{min-height:150px}
+ .feature-card{padding:19px;border-radius:15px}
+ .plan.featured{order:0}
+ .plan{padding:20px;border-radius:16px}
+ .plan-name{font-size:17px;letter-spacing:.06em;color:#416d42}
+ .plan h3{font-size:12px;margin:5px 0 13px;line-height:1.4;color:#748078}
+ .plan-price{font-size:34px}
+ .plan-total{font-size:11px;line-height:1.5}
+ .plan li{font-size:12px;line-height:1.5}
+ .plan .button{min-height:48px}
+ .faq-list summary{font-size:15px}
+ .faq-list details p{font-size:13px;line-height:1.6}
+ .footer-layout{grid-template-columns:1fr;gap:17px;padding:24px 0}
+ .footer-layout .footer-links{display:flex;flex-wrap:wrap;gap:4px 17px}
+ .footer-layout .footer-links a{min-height:44px;display:inline-flex;align-items:center;padding:4px 0;border:0;border-radius:0}
+ .footer-contact{grid-template-columns:1fr;gap:4px}
+ .footer-contact-link{min-height:48px;padding:6px 0;border:0;border-radius:0;background:transparent;box-shadow:none}
+ .footer-contact-link strong{font-size:13px}
+ .footer-layout .copyright{padding-top:13px;font-size:10px}
+}
+@media(max-width:390px){
+ .container{width:calc(100% - 28px)}
+ .eyebrow{font-size:9px;letter-spacing:.12em}
+ .hero h1,.page-hero h1{font-size:clamp(35px,10vw,40px)}
+ .hero .button-row,.page-hero .button-row{display:grid;grid-template-columns:1fr}
+ .filter-row{flex-wrap:wrap}
+ .filter-row>span{flex:1 1 calc(50% - 6px);white-space:normal}
+ .board-bottom{gap:10px;font-size:7px}
+ .time-benefits article{padding:14px 0}
+}
+@media(hover:none){
+ .button:hover,.pain-card:hover,.step-card:hover{transform:none;box-shadow:none}
+}
