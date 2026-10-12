@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f8f2"><meta name="description" content="Choose a FidoraJobs access plan and pay its fixed amount through UPI.">
+<title>Secure your FidoraJobs plan</title><link rel="stylesheet" href="style.css"><link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+<header class="site-header"><nav class="nav container" aria-label="Main navigation"><a class="brand" href="index.html"><span class="brand-mark">F</span><span class="brand-word">fidora<span>jobs</span><small>YOUR NEXT MOVE STARTS HERE</small></span></a><a class="nav-cta" href="pricing.html#plans">Back to plans <span>←</span></a></nav></header>
+<main class="checkout-page"><div class="container checkout-wrap">
+  <div class="checkout-intro"><span class="eyebrow">ONE SIMPLE STEP CLOSER</span><h1>Choose your plan.<br><span class="text-gradient">Pay once by UPI.</span></h1><p>Your plan has a fixed one-time amount. Pay in your UPI app, then send us the UPI reference number so our team can verify it.</p></div>
+  <div class="checkout-grid">
+    <section class="checkout-card" aria-labelledby="plan-heading"><span class="eyebrow">YOUR SELECTED PLAN</span><h2 id="plan-heading">Single Plan</h2><p id="plan-detail">Lifetime access · 1 member</p><div class="checkout-amount" id="plan-amount">₹499</div><small class="checkout-once">one-time payment · INR</small>
+      <div class="checkout-rule"></div><h3>Pay with your UPI app</h3><p class="checkout-help">Tap below on your phone. If more than one app is installed, your phone may let you choose. Check the amount and UPI ID before paying.</p>
+      <a class="button button-primary checkout-pay" id="upi-pay" href="#" rel="nofollow">Open UPI app <span>↗</span></a>
+      <div class="upi-copy-row"><span>UPI ID<br><strong id="upi-id">9652956893@ybl</strong></span><button class="button button-secondary" type="button" id="copy-upi">Copy UPI ID</button></div>
+      <p class="checkout-warning">UPI apps do not always send a payment confirmation back to this page. Save your UPI reference number (UTR). We verify payments manually before confirming access.</p>
+    </section>
+    <section class="checkout-card checkout-form-card" aria-labelledby="details-heading"><span class="eyebrow">SEND PAYMENT DETAILS</span><h2 id="details-heading">Tell us where to reach you</h2><p class="checkout-help">After paying, fill in your details to prepare an email to support. You review and send it yourself; payment still needs manual verification.</p>
+      <form id="payment-form">
+        <label for="buyer-name">Full name</label><input id="buyer-name" name="name" autocomplete="name" required maxlength="100" placeholder="Your name">
+        <label for="buyer-phone">Mobile number</label><input id="buyer-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="16" pattern="(?:\+?91[\s-]?)?[6-9][0-9\s-]{9,13}" placeholder="10-digit Indian mobile number">
+        <label for="buyer-email">Email address</label><input id="buyer-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+        <label for="buyer-utr">UPI reference number (UTR)</label><input id="buyer-utr" name="utr" required minlength="6" maxlength="30" autocomplete="off" placeholder="Enter the reference from your UPI app"><small class="field-hint">Find it in the payment details or transaction history in your UPI app.</small>
+        <label class="checkout-consent"><input type="checkbox" name="consent" required><span>I understand my payment will be checked manually and access is confirmed only after verification.</span></label>
+        <input class="honeypot" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="button button-primary submit-payment" type="submit">Prepare email to support <span>→</span></button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+      <p class="privacy-note">Your details are used to contact you about this plan and payment. Need help? <a href="mailto:support@fidorapath.in">support@fidorapath.in</a>.</p>
+    </section>
+  </div>
+</div></main>
+<footer class="site-footer"><div class="container footer-row"><a class="brand footer-brand" href="index.html"><span class="brand-mark">F</span><span class="brand-word">fidora<span>jobs</span><small>YOUR NEXT MOVE STARTS HERE</small></span></a><p>A clearer way to find company jobs and apply at the source.</p><div class="footer-links"><a href="discover.html">Find jobs</a><a href="features.html">How it works</a><a href="pricing.html">Plans</a><a href="mailto:support@fidorapath.in">Support</a></div><small class="copyright">© <span data-year></span> FidoraJobs</small></div></footer>
+<script src="script.js" defer></script><script>
+(() => {
+ const plans = {
+  single:{name:"Single Plan",detail:"Lifetime access · 1 member",amount:499},
+  duo:{name:"Duo Plan",detail:"Lifetime access · 2 members",amount:598},
+  friends:{name:"Friends Pack",detail:"Lifetime access · 3 members",amount:297}
+ };
+ const params = new URLSearchParams(location.search);
+ const key = params.get("plan");
+ const plan = plans[key];
+ const status = document.getElementById("form-status");
+ if (!plan) {
+   document.getElementById("plan-heading").textContent = "Choose a plan first";
+   document.getElementById("plan-detail").textContent = "Return to plans and select Single, Duo or Friends Pack.";
+   document.getElementById("plan-amount").textContent = "—";
+   document.getElementById("upi-pay").setAttribute("aria-disabled","true");
+   document.getElementById("upi-pay").href = "pricing.html#plans";
+   document.getElementById("upi-pay").textContent = "Choose a plan";
+   document.querySelector("form").hidden = true;
+   return;
+ }
+ document.getElementById("plan-heading").textContent = plan.name;
+ document.getElementById("plan-detail").textContent = plan.detail;
+ document.getElementById("plan-amount").textContent = "₹" + plan.amount;
+ const payUrl = new URL("upi://pay");
+ payUrl.search = new URLSearchParams({pa:"9652956893@ybl",pn:"FidoraJobs",am:plan.amount.toFixed(2),cu:"INR",tn:"FidoraJobs "+plan.name}).toString();
+ document.getElementById("upi-pay").href = payUrl.toString();
+ document.getElementById("copy-upi").addEventListener("click", async () => {
+   try { await navigator.clipboard.writeText("9652956893@ybl"); status.textContent = "UPI ID copied. Open your UPI app and enter the fixed plan amount shown above."; }
+   catch { status.textContent = "UPI ID: 9652956893@ybl. You can select and copy it."; }
+ });
+ document.getElementById("payment-form").addEventListener("submit", (event) => {
+   event.preventDefault();
+   const form = event.currentTarget;
+   if (!form.reportValidity()) return;
+   const data = Object.fromEntries(new FormData(form).entries());
+   const body = [
+     "PAYMENT CLAIM — PLEASE VERIFY MANUALLY",
+     "",
+     "I have made a UPI payment and request verification. This message is not proof of payment.",
+     "Name: " + data.name,
+     "Mobile: " + data.phone,
+     "Email: " + data.email,
+     "Plan: " + plan.name,
+     "Amount: INR " + plan.amount,
+     "UPI reference (UTR): " + data.utr,
+     "UPI ID paid to: 9652956893@ybl"
+   ].join("\n");
+   const mailto = new URL("mailto:support@fidorapath.in");
+   mailto.searchParams.set("subject", "FidoraJobs UPI payment verification — " + plan.name);
+   mailto.searchParams.set("body", body);
+   status.replaceChildren(
+     document.createTextNode("Your email app has not sent anything yet. "),
+     Object.assign(document.createElement("a"), { href: mailto.toString(), textContent: "Open a pre-filled email to support" }),
+     document.createTextNode(", review it and tap Send. Your payment remains pending until support verifies it.")
+   );
+ });
+})();
+</script></body></html>
