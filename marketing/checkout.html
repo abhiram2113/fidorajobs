@@ -79,7 +79,7 @@
      "Amount: INR " + plan.amount,
      "UPI reference (UTR): " + data.utr,
      "UPI ID paid to: 9652956893@ybl"
-   ].join("\\n");
+   ].join("\n");
    const mailto = new URL("mailto:support@fidorapath.in");
    mailto.searchParams.set("subject", "FidoraJobs UPI payment verification — " + plan.name);
    mailto.searchParams.set("body", body);
