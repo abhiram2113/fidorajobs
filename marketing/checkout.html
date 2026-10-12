@@ -16,22 +16,21 @@
       <div class="upi-copy-row"><span>UPI ID<br><strong id="upi-id">9652956893@ybl</strong></span><button class="button button-secondary" type="button" id="copy-upi">Copy UPI ID</button></div>
       <p class="checkout-warning">UPI apps do not always send a payment confirmation back to this page. Save your UPI reference number (UTR). We verify payments manually before confirming access.</p>
     </section>
-    <section class="checkout-card checkout-form-card" aria-labelledby="details-heading"><span class="eyebrow">SEND PAYMENT DETAILS</span><h2 id="details-heading">Tell us where to reach you</h2><p class="checkout-help">After paying, fill in your details to prepare an email to support. You review and send it yourself; payment still needs manual verification.</p>
+    <section class="checkout-card checkout-form-card" aria-labelledby="details-heading"><span class="eyebrow">SEND PAYMENT DETAILS</span><h2 id="details-heading">Tell us where to reach you</h2><p class="checkout-help">After paying, share your name and mobile with our WhatsApp support. Your message will say you have paid and ask us to verify it. Payment is confirmed only after we check it.</p>
       <form id="payment-form">
         <label for="buyer-name">Full name</label><input id="buyer-name" name="name" autocomplete="name" required maxlength="100" placeholder="Your name">
         <label for="buyer-phone">Mobile number</label><input id="buyer-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="16" pattern="(?:\+?91[\s-]?)?[6-9][0-9\s-]{9,13}" placeholder="10-digit Indian mobile number">
-        <label for="buyer-email">Email address</label><input id="buyer-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
-        <label for="buyer-utr">UPI reference number (UTR)</label><input id="buyer-utr" name="utr" required minlength="6" maxlength="30" autocomplete="off" placeholder="Enter the reference from your UPI app"><small class="field-hint">Find it in the payment details or transaction history in your UPI app.</small>
-        <label class="checkout-consent"><input type="checkbox" name="consent" required><span>I understand my payment will be checked manually and access is confirmed only after verification.</span></label>
+        <p class="field-hint">When WhatsApp opens, add your UPI reference (UTR) in the chat yourself if available.</p>
+        <label class="checkout-consent"><input type="checkbox" name="consent" required><span>I understand the message is a payment report, not confirmation. Access follows manual payment verification.</span></label>
         <input class="honeypot" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="button button-primary submit-payment" type="submit">Prepare email to support <span>→</span></button>
+        <button class="button button-primary submit-payment" type="submit">Prepare WhatsApp message <span>→</span></button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
-      <p class="privacy-note">Your details are used to contact you about this plan and payment. Need help? <a href="mailto:support@fidorapath.in">support@fidorapath.in</a>.</p>
+      <p class="privacy-note">Only your name and mobile number are pre-filled in the WhatsApp message. Add your UPI reference yourself in the chat for payment checking. <a href="https://wa.me/917997474891">WhatsApp support</a>.</p>
     </section>
   </div>
 </div></main>
-<footer class="site-footer"><div class="container footer-row"><a class="brand footer-brand" href="index.html"><span class="brand-mark">F</span><span class="brand-word">fidora<span>jobs</span><small>YOUR NEXT MOVE STARTS HERE</small></span></a><p>A clearer way to find company jobs and apply at the source.</p><div class="footer-links"><a href="discover.html">Find jobs</a><a href="features.html">How it works</a><a href="pricing.html">Plans</a><a href="mailto:support@fidorapath.in">Support</a></div><small class="copyright">© <span data-year></span> FidoraJobs</small></div></footer>
+<footer class="site-footer"><div class="container footer-row"><a class="brand footer-brand" href="index.html"><span class="brand-mark">F</span><span class="brand-word">fidora<span>jobs</span><small>YOUR NEXT MOVE STARTS HERE</small></span></a><p>A clearer way to find company jobs and apply at the source.</p><div class="footer-links"><a href="discover.html">Find jobs</a><a href="features.html">How it works</a><a href="pricing.html">Plans</a><a href="https://wa.me/917997474891">WhatsApp support</a></div><small class="copyright">© <span data-year></span> FidoraJobs</small></div></footer>
 <script src="script.js" defer></script><script>
 (() => {
  const plans = {
@@ -68,25 +67,18 @@
    const form = event.currentTarget;
    if (!form.reportValidity()) return;
    const data = Object.fromEntries(new FormData(form).entries());
-   const body = [
-     "PAYMENT CLAIM — PLEASE VERIFY MANUALLY",
+   const message = [
+     "I have made a FidoraJobs UPI payment. Please verify it manually.",
      "",
-     "I have made a UPI payment and request verification. This message is not proof of payment.",
      "Name: " + data.name,
-     "Mobile: " + data.phone,
-     "Email: " + data.email,
-     "Plan: " + plan.name,
-     "Amount: INR " + plan.amount,
-     "UPI reference (UTR): " + data.utr,
-     "UPI ID paid to: 9652956893@ybl"
+     "Mobile: " + data.phone
    ].join("\n");
-   const mailto = new URL("mailto:support@fidorapath.in");
-   mailto.searchParams.set("subject", "FidoraJobs UPI payment verification — " + plan.name);
-   mailto.searchParams.set("body", body);
+   const whatsapp = new URL("https://wa.me/917997474891");
+   whatsapp.searchParams.set("text", message);
    status.replaceChildren(
-     document.createTextNode("Your email app has not sent anything yet. "),
-     Object.assign(document.createElement("a"), { href: mailto.toString(), textContent: "Open a pre-filled email to support" }),
-     document.createTextNode(", review it and tap Send. Your payment remains pending until support verifies it.")
+     document.createTextNode("Your message includes only your name and mobile number. It is not sent yet. "),
+     Object.assign(document.createElement("a"), { href: whatsapp.toString(), target: "_blank", rel: "noopener noreferrer", textContent: "Open WhatsApp and tap Send" }),
+     document.createTextNode(". This does not confirm payment; support will verify it manually. You can add your UPI reference yourself in WhatsApp.")
    );
  });
 })();
