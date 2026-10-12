@@ -16,7 +16,7 @@
       <div class="upi-copy-row"><span>UPI ID<br><strong id="upi-id">9652956893@ybl</strong></span><button class="button button-secondary" type="button" id="copy-upi">Copy UPI ID</button></div>
       <p class="checkout-warning">UPI apps do not always send a payment confirmation back to this page. Save your UPI reference number (UTR). We verify payments manually before confirming access.</p>
     </section>
-    <section class="checkout-card checkout-form-card" aria-labelledby="details-heading"><span class="eyebrow">SEND PAYMENT DETAILS</span><h2 id="details-heading">Tell us where to reach you</h2><p class="checkout-help">After paying, come back here and submit your details. This sends a payment claim to support; it does not confirm payment or activate access automatically.</p>
+    <section class="checkout-card checkout-form-card" aria-labelledby="details-heading"><span class="eyebrow">SEND PAYMENT DETAILS</span><h2 id="details-heading">Tell us where to reach you</h2><p class="checkout-help">After paying, fill in your details to prepare an email to support. You review and send it yourself; payment still needs manual verification.</p>
       <form id="payment-form">
         <label for="buyer-name">Full name</label><input id="buyer-name" name="name" autocomplete="name" required maxlength="100" placeholder="Your name">
         <label for="buyer-phone">Mobile number</label><input id="buyer-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="16" pattern="(?:\+?91[\s-]?)?[6-9][0-9\s-]{9,13}" placeholder="10-digit Indian mobile number">
@@ -24,7 +24,7 @@
         <label for="buyer-utr">UPI reference number (UTR)</label><input id="buyer-utr" name="utr" required minlength="6" maxlength="30" autocomplete="off" placeholder="Enter the reference from your UPI app"><small class="field-hint">Find it in the payment details or transaction history in your UPI app.</small>
         <label class="checkout-consent"><input type="checkbox" name="consent" required><span>I understand my payment will be checked manually and access is confirmed only after verification.</span></label>
         <input class="honeypot" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="button button-primary submit-payment" type="submit">Send for verification <span>→</span></button>
+        <button class="button button-primary submit-payment" type="submit">Prepare email to support <span>→</span></button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
       <p class="privacy-note">Your details are used to contact you about this plan and payment. Need help? <a href="mailto:support@fidorapath.in">support@fidorapath.in</a>.</p>
@@ -63,18 +63,11 @@
    try { await navigator.clipboard.writeText("9652956893@ybl"); status.textContent = "UPI ID copied. Open your UPI app and enter the fixed plan amount shown above."; }
    catch { status.textContent = "UPI ID: 9652956893@ybl. You can select and copy it."; }
  });
- document.getElementById("payment-form").addEventListener("submit", async (event) => {
+ document.getElementById("payment-form").addEventListener("submit", (event) => {
    event.preventDefault();
    const form = event.currentTarget;
    if (!form.reportValidity()) return;
    const data = Object.fromEntries(new FormData(form).entries());
-   data.plan = key;
-   data.consent = form.elements.consent.checked;
-   const button = form.querySelector('button[type="submit"]');
-   button.disabled = true;
-   status.textContent = "Sending your details securely…";
-   try {
-     const subject = "FidoraJobs UPI payment verification — " + plan.name;
    const body = [
      "PAYMENT CLAIM — PLEASE VERIFY MANUALLY",
      "",
@@ -87,9 +80,14 @@
      "UPI reference (UTR): " + data.utr,
      "UPI ID paid to: 9652956893@ybl"
    ].join("\\n");
-   const mailto = "mailto:support@fidorapath.in?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-   status.innerHTML = 'Your email app has not sent anything yet. <a href="' + mailto + '">Open a pre-filled email to support</a>, review it and tap Send. Your payment remains pending until support verifies it.';
-   button.disabled = false;
+   const mailto = new URL("mailto:support@fidorapath.in");
+   mailto.searchParams.set("subject", "FidoraJobs UPI payment verification — " + plan.name);
+   mailto.searchParams.set("body", body);
+   status.replaceChildren(
+     document.createTextNode("Your email app has not sent anything yet. "),
+     Object.assign(document.createElement("a"), { href: mailto.toString(), textContent: "Open a pre-filled email to support" }),
+     document.createTextNode(", review it and tap Send. Your payment remains pending until support verifies it.")
+   );
  });
 })();
 </script></body></html>
