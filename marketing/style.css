@@ -39,3 +39,5 @@
 .plan h3{font-size:12px;line-height:1.45;font-weight:600;color:#78847b;letter-spacing:0;margin:5px 0 15px}
 @media(max-width:960px){.jobboard-feature-grid{gap:28px}}
 @media(max-width:700px){.jobboard-feature{padding:42px 0}.jobboard-feature-grid{grid-template-columns:1fr;gap:25px}.jobboard-art{padding:15px 14px 12px}.jobboard-feature-copy>p{font-size:13px}.jobboard-art-footer{font-size:7px}.jobboard-art-footer span:last-child{font-size:6px}.plan-name{font-size:16px}.plan h3{font-size:12px}}
+
+.checkout-card form[hidden]{display:none}
