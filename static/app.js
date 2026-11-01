@@ -35,7 +35,7 @@ function contractDetails(j){
  const c2c=/\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?/i.test(text);
  const accepted=/(?:\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?).{0,35}\b(?:accepted|okay|ok|welcome|available|allowed)\b|\b(?:accept(?:s|ing)?|open to)\s+(?:\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?)/i.test(text);
  const type=c2c?"C2C":/\b1099\b|independent contractor/i.test(text)?"1099":/\bW[- ]?2\b/i.test(text)?"W2":/\bC2H\b|contract[- ]to[- ]hire/i.test(text)?"C2H":/\bcontract(?:or)?\b|\btemporary\b/i.test(text)?"Contract":"Other";
- return {type,c2cStatus:c2cOnly?"C2C only":accepted?"C2C accepted":c2c?"C2C mentioned":"Not stated"};
+ return {type,c2cStatus:c2cOnly?"C2C only":rejected?"C2C not accepted":accepted?"C2C accepted":c2c?"C2C mentioned":"Not stated"};
 }
 function contractRate(j){let m=String(j.salary||"").match(/(?:\$|USD\s*)(\d{2,3}(?:,\d{3})?(?:\.\d{1,2})?)/i);return m?Number(m[1].replace(/,/g,"")):null}
 function filteredContractJobs(){
