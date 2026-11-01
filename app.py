@@ -454,6 +454,34 @@ def normalize_job(source, source_id, employer, title, location, description, job
             "sponsor_hint": str(sponsor_hint or "")[:40]}
 
 
+def classify_contract(title, description, category=""):
+    """Classify contract engagement only from explicit wording in the available listing text."""
+    text = " ".join(str(value or "") for value in (title, description, category))
+    c2c = re.search(r"\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b", text, re.I)
+    c2c_only = re.search(r"(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b)\s+only|\bonly\s+(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b)", text, re.I)
+    w2 = re.search(r"\bW[- ]?2\b", text, re.I)
+    contractor_1099 = re.search(r"\b1099\b|independent contractor", text, re.I)
+    c2h = re.search(r"\bC2H\b|contract[- ]to[- ]hire", text, re.I)
+    contract = re.search(r"\bcontract(?:or)?\b|\btemporary\b", text, re.I)
+    if c2c:
+        kind = "C2C"
+    elif contractor_1099:
+        kind = "1099"
+    elif w2:
+        kind = "W2"
+    elif c2h:
+        kind = "C2H"
+    elif contract:
+        kind = "Contract"
+    else:
+        kind = "Other"
+    c2c_rejected = re.search(r"(?:\bno\s+C2C\b|\bC2C\s+(?:not accepted|not allowed|not available|not considered)\b|\bnot accepting\s+C2C\b)", text, re.I)
+    c2c_accept = re.search(r"(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b).{0,35}\b(?:accepted|okay|ok|welcome|available|allowed)\b|\b(?:accept(?:s|ing)?|open to)\s+(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b)", text, re.I)
+    status = "C2C only" if c2c_only else "C2C not accepted" if c2c_rejected else "C2C accepted" if c2c_accept else "C2C mentioned" if c2c else "Not stated"
+    evidence = c2c_only.group(0) if c2c_only else c2c_rejected.group(0) if c2c_rejected else c2c_accept.group(0) if c2c_accept else c2c.group(0) if c2c else ""
+    return {"type": kind, "c2c_status": status, "evidence": evidence}
+
+
 def greenhouse_jobs(token):
     data = request_json(f"https://boards-api.greenhouse.io/v1/boards/{urllib.parse.quote(token)}/jobs?content=true")
     for j in data.get("jobs", []):
@@ -1423,7 +1451,8 @@ class Handler(BaseHTTPRequestHandler):
                     provider_signal=(r["sponsor_hint"]=="provider_positive")
                     sponsorship="negative" if negative_match else "explicit" if positive_match else "provider_signal" if provider_signal else "not_stated"
                     evidence=negative_match.group(0) if negative_match else positive_match.group(0) if positive_match else "An external sponsorship signal was returned; verify on the employer posting." if provider_signal else "No clear sponsorship statement found in the available text."
-                    out.append({"id":r["id"],"source_key":r["source_key"],"employer":r["employer"],"title":r["title"],"location":r["location"],"description":r["description"],"job_url":r["job_url"],"apply_url":r["apply_url"],"posted_at":r["posted_at"],"first_seen_at":r["first_seen_at"],"last_seen_at":r["last_seen_at"],"date_type":"employer_posted" if r["posted_at"] else "first_seen","remote_type":r["remote_type"],"category":r["category"],"salary":r["salary"],"match":score,"has_resume":has_resume,"matched_terms":hits[:12],"sponsorship":sponsorship,"sponsorship_evidence":evidence,"sponsorship_negative":bool(negative_match),"applied":r["source_key"] in applied,"saved":r["id"] in saved})
+                    contract = classify_contract(r["title"], desc, r["category"])
+                    out.append({"id":r["id"],"source_key":r["source_key"],"source":r["source"],"contract_type":contract["type"],"c2c_status":contract["c2c_status"],"contract_evidence":contract["evidence"],"employer":r["employer"],"title":r["title"],"location":r["location"],"description":r["description"],"job_url":r["job_url"],"apply_url":r["apply_url"],"posted_at":r["posted_at"],"first_seen_at":r["first_seen_at"],"last_seen_at":r["last_seen_at"],"date_type":"employer_posted" if r["posted_at"] else "first_seen","remote_type":r["remote_type"],"category":r["category"],"salary":r["salary"],"match":score,"has_resume":has_resume,"matched_terms":hits[:12],"sponsorship":sponsorship,"sponsorship_evidence":evidence,"sponsorship_negative":bool(negative_match),"applied":r["source_key"] in applied,"saved":r["id"] in saved})
                 out.sort(key=lambda x:(x["match"],x["posted_at"] or x["first_seen_at"]),reverse=True)
                 return self.send_json({"jobs":out,"count":len(out),"sources":SOURCE_STATE,"last_sync":max((x.get("last_run","") for x in SOURCE_STATE.values()),default="")})
             if path=="/api/applications":

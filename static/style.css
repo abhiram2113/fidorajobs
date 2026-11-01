@@ -518,3 +518,18 @@ html[data-theme="dark"] .assistant-disclaimer{color:#c1ccdd}
     max-height: calc(100dvh - 150px - env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* Dedicated contract and C2C job workspace */
+#page-contracts .contract-intro{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+#page-contracts .contract-intro>div{display:grid;gap:6px;padding:15px 17px;border:1px solid #e6eaf1;border-radius:13px;background:#fff}
+#page-contracts .contract-intro strong{font-size:12px;color:var(--navy);font-weight:800}
+#page-contracts .contract-intro span{font-size:11px;line-height:1.6;color:var(--muted)}
+#page-contracts .contract-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:15px;border:1px solid #e5eaf1;border-radius:15px;background:#fff;box-shadow:0 3px 12px #1c2b3a08}
+#page-contracts .contract-filters input,#page-contracts .contract-filters select{min-width:0;width:100%;min-height:43px;padding:10px 12px;border:1px solid #d9e1eb;border-radius:9px;background:#fff;color:#1d2939;font:inherit;font-size:12px}
+.contract-tag{background:#e7f0ff!important;color:#1d4e8a!important;border-color:#c9daf6!important}
+.c2c-tag{background:#e1f5e9!important;color:#17603f!important;border-color:#bce4ca!important}
+html[data-theme="dark"] #page-contracts .contract-intro>div,html[data-theme="dark"] #page-contracts .contract-filters{background:#111c2d;border-color:var(--line)}
+html[data-theme="dark"] #page-contracts .contract-intro strong{color:#f3f6fb}
+html[data-theme="dark"] #page-contracts .contract-filters input,html[data-theme="dark"] #page-contracts .contract-filters select{background:#0b1423;color:var(--ink);border-color:#344359}
+@media(max-width:900px){#page-contracts .contract-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#page-contracts .contract-intro{grid-template-columns:1fr}#page-contracts .contract-filters{grid-template-columns:1fr}#page-contracts .contract-filters>*{width:100%;min-width:0}}
