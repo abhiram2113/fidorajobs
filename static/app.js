@@ -33,6 +33,7 @@ function contractDetails(j){
  const text=[j.title,j.description,j.category].join(" ").toLowerCase();
  const c2cOnly=/\bC2C\b.{0,20}\bonly\b|\bonly.{0,20}\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?.{0,20}\bonly\b/i.test(text);
  const c2c=/\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?/i.test(text);
+ const rejected=/\bno\s+C2C\b|\bC2C\s+(?:not accepted|not allowed|not available|not considered)\b|\bnot accepting\s+C2C\b/i.test(text);
  const accepted=/(?:\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?).{0,35}\b(?:accepted|okay|ok|welcome|available|allowed)\b|\b(?:accept(?:s|ing)?|open to)\s+(?:\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?)/i.test(text);
  const type=c2c?"C2C":/\b1099\b|independent contractor/i.test(text)?"1099":/\bW[- ]?2\b/i.test(text)?"W2":/\bC2H\b|contract[- ]to[- ]hire/i.test(text)?"C2H":/\bcontract(?:or)?\b|\btemporary\b/i.test(text)?"Contract":"Other";
  return {type,c2cStatus:c2cOnly?"C2C only":rejected?"C2C not accepted":accepted?"C2C accepted":c2c?"C2C mentioned":"Not stated"};
