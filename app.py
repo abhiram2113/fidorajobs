@@ -457,12 +457,12 @@ def normalize_job(source, source_id, employer, title, location, description, job
 def classify_contract(title, description, category=""):
     """Classify contract engagement only from explicit wording in the available listing text."""
     text = " ".join(str(value or "") for value in (title, description, category))
-    c2c = re.search(r"\\bC2C\\b|\\bcorp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?\\b", text, re.I)
-    c2c_only = re.search(r"(?:\\bC2C\\b|\\bcorp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?\\b)\\s+only|\\bonly\\s+(?:\\bC2C\\b|\\bcorp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?\\b)", text, re.I)
-    w2 = re.search(r"\\bW[- ]?2\\b", text, re.I)
-    contractor_1099 = re.search(r"\\b1099\\b|independent contractor", text, re.I)
-    c2h = re.search(r"\\bC2H\\b|contract[- ]to[- ]hire", text, re.I)
-    contract = re.search(r"\\bcontract(?:or)?\\b|\\btemporary\\b", text, re.I)
+    c2c = re.search(r"\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b", text, re.I)
+    c2c_only = re.search(r"(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b)\s+only|\bonly\s+(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b)", text, re.I)
+    w2 = re.search(r"\bW[- ]?2\b", text, re.I)
+    contractor_1099 = re.search(r"\b1099\b|independent contractor", text, re.I)
+    c2h = re.search(r"\bC2H\b|contract[- ]to[- ]hire", text, re.I)
+    contract = re.search(r"\bcontract(?:or)?\b|\btemporary\b", text, re.I)
     if c2c:
         kind = "C2C"
     elif contractor_1099:
@@ -475,7 +475,7 @@ def classify_contract(title, description, category=""):
         kind = "Contract"
     else:
         kind = "Other"
-    c2c_accept = re.search(r"(?:\\bC2C\\b|\\bcorp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?\\b).{0,35}\\b(?:accepted|okay|ok|welcome|available|allowed)\\b|\\b(?:accept(?:s|ing)?|open to)\\s+(?:\\bC2C\\b|\\bcorp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?\\b)", text, re.I)
+    c2c_accept = re.search(r"(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b).{0,35}\b(?:accepted|okay|ok|welcome|available|allowed)\b|\b(?:accept(?:s|ing)?|open to)\s+(?:\bC2C\b|\bcorp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?\b)", text, re.I)
     status = "C2C only" if c2c_only else "C2C accepted" if c2c_accept else "C2C mentioned" if c2c else "Not stated"
     evidence = c2c_only.group(0) if c2c_only else c2c_accept.group(0) if c2c_accept else c2c.group(0) if c2c else ""
     return {"type": kind, "c2c_status": status, "evidence": evidence}
