@@ -31,13 +31,13 @@ function filteredJobs(){let q=$("#q").value.toLowerCase(),c=$("#country").value.
 function filter(){let a=filteredJobs(),day=$("#jobDate")?.value||"";$("#resultCount").textContent=a.length+" matching listings"+(day?" · posted "+day:" · all dates");render("#allJobs",a)}
 function contractDetails(j){
  const text=[j.title,j.description,j.category].join(" ").toLowerCase();
- const c2cOnly=/\\bC2C\\b.{0,20}\\bonly\\b|\\bonly.{0,20}\\bC2C\\b|corp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?.{0,20}\\bonly\\b/i.test(text);
- const c2c=/\\bC2C\\b|corp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?/i.test(text);
- const accepted=/(?:\\bC2C\\b|corp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?).{0,35}\\b(?:accepted|okay|ok|welcome|available|allowed)\\b|\\b(?:accept(?:s|ing)?|open to)\\s+(?:\\bC2C\\b|corp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?)/i.test(text);
- const type=c2c?"C2C":/\\b1099\\b|independent contractor/i.test(text)?"1099":/\\bW[- ]?2\\b/i.test(text)?"W2":/\\bC2H\\b|contract[- ]to[- ]hire/i.test(text)?"C2H":/\\bcontract(?:or)?\\b|\\btemporary\\b/i.test(text)?"Contract":"Other";
+ const c2cOnly=/\bC2C\b.{0,20}\bonly\b|\bonly.{0,20}\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?.{0,20}\bonly\b/i.test(text);
+ const c2c=/\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?/i.test(text);
+ const accepted=/(?:\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?).{0,35}\b(?:accepted|okay|ok|welcome|available|allowed)\b|\b(?:accept(?:s|ing)?|open to)\s+(?:\bC2C\b|corp(?:oration)?[\s-]*to[\s-]*corp(?:oration)?)/i.test(text);
+ const type=c2c?"C2C":/\b1099\b|independent contractor/i.test(text)?"1099":/\bW[- ]?2\b/i.test(text)?"W2":/\bC2H\b|contract[- ]to[- ]hire/i.test(text)?"C2H":/\bcontract(?:or)?\b|\btemporary\b/i.test(text)?"Contract":"Other";
  return {type,c2cStatus:c2cOnly?"C2C only":accepted?"C2C accepted":c2c?"C2C mentioned":"Not stated"};
 }
-function contractRate(j){let m=String(j.salary||"").match(/(?:\\$|USD\\s*)(\\d{2,3}(?:,\\d{3})?(?:\\.\\d{1,2})?)/i);return m?Number(m[1].replace(/,/g,"")):null}
+function contractRate(j){let m=String(j.salary||"").match(/(?:\$|USD\s*)(\d{2,3}(?:,\d{3})?(?:\.\d{1,2})?)/i);return m?Number(m[1].replace(/,/g,"")):null}
 function filteredContractJobs(){
  const q=$("#contractQ").value.trim().toLowerCase(),type=$("#contractType").value,country=$("#contractCountry").value.toLowerCase(),work=$("#contractWorkMode").value.toLowerCase(),domain=$("#contractDomain").value.toLowerCase(),age=$("#contractAge").value,c2c=$("#contractAcceptance").value,min=Number($("#contractMinRate").value||0),max=Number($("#contractMaxRate").value||0);
  const cutoff=age==="any"?0:Date.now()-({ "24h":86400000,"3d":259200000,"7d":604800000,"30d":2592000000 }[age]||0);
