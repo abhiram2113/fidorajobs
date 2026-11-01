@@ -475,8 +475,9 @@ def classify_contract(title, description, category=""):
         kind = "Contract"
     else:
         kind = "Other"
-    status = "C2C only" if c2c_only else "C2C mentioned" if c2c else "Not stated"
-    evidence = c2c_only.group(0) if c2c_only else c2c.group(0) if c2c else ""
+    c2c_accept = re.search(r"(?:\\bC2C\\b|\\bcorp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?\\b).{0,35}\\b(?:accepted|okay|ok|welcome|available|allowed)\\b|\\b(?:accept(?:s|ing)?|open to)\\s+(?:\\bC2C\\b|\\bcorp(?:oration)?[\\s-]*to[\\s-]*corp(?:oration)?\\b)", text, re.I)
+    status = "C2C only" if c2c_only else "C2C accepted" if c2c_accept else "C2C mentioned" if c2c else "Not stated"
+    evidence = c2c_only.group(0) if c2c_only else c2c_accept.group(0) if c2c_accept else c2c.group(0) if c2c else ""
     return {"type": kind, "c2c_status": status, "evidence": evidence}
 
 
