@@ -405,8 +405,10 @@ def init_db():
         CREATE INDEX IF NOT EXISTS jobs_posted_idx ON jobs(posted_at DESC);
         CREATE INDEX IF NOT EXISTS applications_user_idx ON applications(user_id, applied_at DESC);
         """)
-        c.execute("UPDATE jobs SET active=0 WHERE source LIKE 'Adzuna%'")
-        c.execute("UPDATE jobs SET active=0 WHERE source LIKE 'Employer ATS · %' OR source LIKE 'Employer careers · %'")
+        # Do not mutate job rows during serverless cold-start initialization.
+        # Vercel may initialize many instances concurrently; these bulk updates
+        # caused PostgreSQL deadlocks and intermittently broke /api/me requests.
+        # Feed deactivation belongs in the scheduled sync workflow, not init_db.
     email, password = os.getenv("ADMIN_EMAIL", "").strip().lower(), os.getenv("ADMIN_PASSWORD", "")
     if email and password:
         salt = secrets.token_hex(16)
