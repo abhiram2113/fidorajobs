@@ -1439,7 +1439,7 @@ class Handler(BaseHTTPRequestHandler):
                     # Score against the job's actual role and core posting keywords, not every
                     # unrelated keyword in a long resume (which made almost every score tiny).
                     title_terms=resume_keywords((r["title"] or "")+" "+(r["category"] or ""))
-                    raw_desc_words=re.findall(r"(?<![a-z0-9])(?:c\\+\\+|c#|\\.net|[a-z][a-z0-9+#.]{1,30})(?![a-z0-9])",desc[:5000].lower())
+                    raw_desc_words=re.findall(r"(?<![a-z0-9])(?:c\+\+|c#|\.net|[a-z][a-z0-9+#.]{1,30})(?![a-z0-9])",desc[:5000].lower())
                     desc_terms=[]
                     for word in raw_desc_words:
                         term=word if word in ("c++","c#",".net") else word.strip(".+#")
