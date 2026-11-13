@@ -1435,20 +1435,29 @@ class Handler(BaseHTTPRequestHandler):
                 applied={r[0] for r in c.execute("SELECT source_key FROM applications WHERE user_id=?",(user["id"],)).fetchall()}
                 saved={r[0] for r in c.execute("SELECT job_id FROM saved_jobs WHERE user_id=?",(user["id"],)).fetchall()}
                 for r in rows:
-                    job_text=(r["title"]+" "+r["description"]+" "+r["category"]).lower()
-                    job_terms=resume_keywords(job_text);hits=sorted(terms & job_terms)
-                    title_terms=resume_keywords(r["title"])
-                    # Give the client's chosen target role and skills more weight than incidental resume words.
-                    def match_weight(term):
-                        return 2.5 if term in role_terms or term in skill_terms else 2.0 if term in title_terms else 1.0
-                    weight_total=sum(match_weight(term) for term in terms)
-                    weight_match=sum(match_weight(term) for term in hits)
+                    desc=r["description"] or ""
+                    # Score against the job's actual role and core posting keywords, not every
+                    # unrelated keyword in a long resume (which made almost every score tiny).
+                    title_terms=resume_keywords((r["title"] or "")+" "+(r["category"] or ""))
+                    raw_desc_words=re.findall(r"(?<![a-z0-9])(?:c\\+\\+|c#|\\.net|[a-z][a-z0-9+#.]{1,30})(?![a-z0-9])",desc[:5000].lower())
+                    desc_terms=[]
+                    for word in raw_desc_words:
+                        term=word if word in ("c++","c#",".net") else word.strip(".+#")
+                        term=RESUME_ALIASES.get(term,term)
+                        if term not in RESUME_STOPWORDS and (len(term)>=2 or term=="c#") and term not in desc_terms:
+                            desc_terms.append(term)
+                        if len(desc_terms)>=40:
+                            break
+                    desc_terms=set(desc_terms)
+                    hits=sorted(terms & (title_terms | desc_terms))
+                    title_coverage=(len(title_terms & terms)/len(title_terms)) if title_terms else 0.0
+                    desc_coverage=(len(desc_terms & terms)/len(desc_terms)) if desc_terms else title_coverage
+                    # Equal weight for role/title relevance and relevant skills from the posting.
+                    score=round(100*(0.5*title_coverage+0.5*desc_coverage)) if has_resume and terms else 0
                     hits.sort(key=lambda term: (term not in title_terms, term not in role_terms, term not in skill_terms, term))
-                    score=round(100*weight_match/weight_total) if weight_total and has_resume else 0
-                    # Only return jobs with a real resume match of at least 50%.
+                    # Never return an unscored job or a score below the user's 50% minimum.
                     if not has_resume or score < 50:
                         continue
-                    desc=r["description"] or ""
                     positive_match=re.search(r"(sponsor(ship)? (is )?(available|provided|offered)|visa (sponsorship|support)|will sponsor|H.?1B sponsorship)",desc,re.I)
                     negative_match=re.search(r"(unable to sponsor|will not sponsor|no sponsorship|without (the need for )?sponsorship)",desc,re.I)
                     provider_signal=(r["sponsor_hint"]=="provider_positive")
