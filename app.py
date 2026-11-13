@@ -1445,6 +1445,9 @@ class Handler(BaseHTTPRequestHandler):
                     weight_match=sum(match_weight(term) for term in hits)
                     hits.sort(key=lambda term: (term not in title_terms, term not in role_terms, term not in skill_terms, term))
                     score=round(100*weight_match/weight_total) if weight_total and has_resume else 0
+                    # Only return jobs with a real resume match of at least 50%.
+                    if not has_resume or score < 50:
+                        continue
                     desc=r["description"] or ""
                     positive_match=re.search(r"(sponsor(ship)? (is )?(available|provided|offered)|visa (sponsorship|support)|will sponsor|H.?1B sponsorship)",desc,re.I)
                     negative_match=re.search(r"(unable to sponsor|will not sponsor|no sponsorship|without (the need for )?sponsorship)",desc,re.I)
