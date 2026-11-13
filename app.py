@@ -1455,9 +1455,8 @@ class Handler(BaseHTTPRequestHandler):
                     # Equal weight for role/title relevance and relevant skills from the posting.
                     score=round(100*(0.5*title_coverage+0.5*desc_coverage)) if has_resume and terms else 0
                     hits.sort(key=lambda term: (term not in title_terms, term not in role_terms, term not in skill_terms, term))
-                    # Never return an unscored job or a score below the user's 50% minimum.
-                    if not has_resume or score < 50:
-                        continue
+                    # Return every active listing. A score of 0 is valid when there is
+                    # no resume or no keyword overlap; the UI shows a neutral score state.
                     positive_match=re.search(r"(sponsor(ship)? (is )?(available|provided|offered)|visa (sponsorship|support)|will sponsor|H.?1B sponsorship)",desc,re.I)
                     negative_match=re.search(r"(unable to sponsor|will not sponsor|no sponsorship|without (the need for )?sponsorship)",desc,re.I)
                     provider_signal=(r["sponsor_hint"]=="provider_positive")
